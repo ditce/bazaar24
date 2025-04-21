@@ -1,8 +1,7 @@
 import React from 'react';
 
 const UserProfile = () => {
-  // Fetch user data and role (would typically come from a server)
-  const userData = { name: 'John Doe', role: 'Admin' }; 
+  const userData = { name: 'Test', role: 'Admin' }; 
 
   return (
     <div>
