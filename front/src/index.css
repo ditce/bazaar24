@@ -63,14 +63,14 @@ button {
   padding: 1em;
   font-size: 1rem;
   font-weight: 500;
-  background-color: #4C6EF5; /* Ngjyrë blu për butonin */
+  background-color: grey; /* Ngjyrë blu për butonin */
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #2C4BB5; /* Hije më e errët e blu për hover */
+  background-color: #2C4BB5; 
 }
 
 a {
