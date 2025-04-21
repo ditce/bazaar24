@@ -1,6 +1,15 @@
 <?php
 ini_set('session.cookie_domain', '*');
 
+header('Access-Control-Allow-Origin: http://localhost:5175');
+header('Access-Control-Allow-Credentials: true');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type');
+    exit(0);
+}
+
 $url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 header('Content-Type: application/json');
 
