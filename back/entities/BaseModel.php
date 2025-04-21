@@ -7,6 +7,15 @@ abstract class Model {
     protected $primaryKey = 'id';
     protected $attributes = [];
 
+    private function generateUuidv4() {
+      $data = random_bytes(16);
+
+      $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+      $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+        
+      return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+
     public function __construct(array $attributes = []) {
         $this->attributes = $attributes;
     }
@@ -15,7 +24,7 @@ abstract class Model {
         $instance = new static();
         $pdo = Database::connect();
 
-        $sql = "SELECT * FROM {$instance->table} WHERE {$instance->primaryKey} = :id LIMIT 1";
+        $sql = "SELECT * FROM {$instance->table} WHERE id = :id LIMIT 1";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
 
@@ -40,12 +49,13 @@ abstract class Model {
         $fields = array_keys($this->attributes);
         $placeholders = array_map(fn($f) => ":$f", $fields);
 
-        if (!isset($this->attributes[$this->primaryKey])) {
+        if (!isset($this->attributes['id'])) {
+            $this->attributes['id'] = $this->generateUuidv4();
             $sql = "INSERT INTO {$this->table} (" . implode(', ', $fields) . ")
                     VALUES (" . implode(', ', $placeholders) . ")";
         } else {
             $set = implode(', ', array_map(fn($f) => "$f = :$f", $fields));
-            $sql = "UPDATE {$this->table} SET $set WHERE {$this->primaryKey} = :pk";
+            $sql = "UPDATE {$this->table} SET $set WHERE id = :pk";
         }
 
         $stmt = $pdo->prepare($sql);
