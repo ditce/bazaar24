@@ -1,5 +1,5 @@
 <?php
-ini_set('session.cookie_domain', '*');
+ini_set('session.cookie_domain', 'http://localhost:5175');
 
 header('Access-Control-Allow-Origin: http://localhost:5175');
 header('Access-Control-Allow-Credentials: true');
