@@ -11,7 +11,7 @@ $rawInput = file_get_contents("php://input");
 
 $request = json_decode($rawInput, true);
 
-$input_fields = ['username', 'password'];
+$input_fields = ['email', 'password'];
 
 $hasEmptyFields = array_any($input_fields, fn($input) => empty($request[$input]));
 
@@ -22,9 +22,18 @@ if ($hasEmptyFields) {
 }
 
 $user = User::findByEmail(htmlspecialchars($request['email']));
-$isCorrectPassword = password_verify($user->$password, htmlspecialchars($request['password']));
+if (!$user) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Wrong Credentials']);
+    die();
+}
 
-if (!$user || !$isCorrectPassword) {
+$isCorrectPassword = password_verify(
+    htmlspecialchars($request['password']), 
+    $user->password_hash
+);
+
+if (!$isCorrectPassword) {
     http_response_code(403);
     echo json_encode(['error' => 'Wrong Credentials']);
     die();
@@ -32,8 +41,8 @@ if (!$user || !$isCorrectPassword) {
 
 session_start();
 
-$_SESSION['user_id'] = $user->$id;
-$_SESSION['email'] = $email;
+$_SESSION['user_id'] = $user->id;
+$_SESSION['email'] = $user->email;
 
 echo json_encode([
     'message' => 'Logged in successfully',

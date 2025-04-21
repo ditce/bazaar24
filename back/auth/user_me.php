@@ -15,7 +15,7 @@ if (!isset($_SESSION['email'])) {
     die();
 }
 
-$currentUser = User::findByEmail($email);
+$currentUser = User::findByEmail($_SESSION['email']);
 
 echo json_encode($currentUser);
 

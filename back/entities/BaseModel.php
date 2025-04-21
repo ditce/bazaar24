@@ -16,6 +16,13 @@ abstract class Model {
       return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
+    public function __get($name) {
+        if (array_key_exists($name, $this->attributes)) {
+            return $this->attributes[$name];
+        }
+        return null;
+    }
+
     public function __construct(array $attributes = []) {
         $this->attributes = $attributes;
     }
@@ -46,11 +53,14 @@ abstract class Model {
     public function save(): void {
         $pdo = Database::connect();
 
+        if (!isset($this->attributes['id'])) {
+            $this->attributes['id'] = $this->generateUuidv4();
+        }    
+
         $fields = array_keys($this->attributes);
         $placeholders = array_map(fn($f) => ":$f", $fields);
 
-        if (!isset($this->attributes['id'])) {
-            $this->attributes['id'] = $this->generateUuidv4();
+        if (!isset($this->attributes['update_id'])) {
             $sql = "INSERT INTO {$this->table} (" . implode(', ', $fields) . ")
                     VALUES (" . implode(', ', $placeholders) . ")";
         } else {
@@ -64,8 +74,8 @@ abstract class Model {
             $stmt->bindValue(":$field", $value);
         }
 
-        if (isset($this->attributes[$this->primaryKey])) {
-            $stmt->bindValue(':pk', $this->attributes[$this->primaryKey]);
+        if (isset($this->attributes['update_id'])) {
+            $stmt->bindValue(':pk', $this->attributes['update_id']);
         }
 
         $stmt->execute();

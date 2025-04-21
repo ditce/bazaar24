@@ -30,4 +30,17 @@ export default [
       ],
     },
   },
-]
+  {
+    files: ['tailwind.config.js', 'postcss.config.js'],
+    env: { node: true },
+    rules: { 'no-undef': 'off' },
+  },
+  {
+    files: ['**/*.css', '**/*.scss'],
+    rules: {
+      'no-unknown-animations': 'off',
+      'no-unknown-rules': 'off',
+    },
+  },
+];
+
