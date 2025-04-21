@@ -35,6 +35,8 @@ session_start();
 $_SESSION['user_id'] = $user->$id;
 $_SESSION['email'] = $email;
 
-echo json_encode(['message' => 'User registered successfully']);
+echo json_encode([
+    'message' => 'Logged in successfully',
+]);
+
 die();
-?>

@@ -1,4 +1,5 @@
 <?php
+ini_set('session.cookie_domain', '*');
 
 $url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 header('Content-Type: application/json');
