@@ -4,7 +4,7 @@ require_once './BaseModel.php';
 class User extends Model {
     protected $table = 'users';
 
-    public function findByEmail($email) {
+    public static function findByEmail($email) {
         $pdo = Database::connect();
         $sql = 'SELECT * FROM users WHERE email = :email LIMIT 1';
         $stmt = $pdo->prepare($sql);

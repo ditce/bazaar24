@@ -1,6 +1,7 @@
 <?php
 
 $url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+header('Content-Type: application/json');
 
 $routes = [
     'register' => function() {
@@ -10,7 +11,7 @@ $routes = [
         include './auth/login.php';
     },
     'me' => function() {
-        include 'user_me.php';
+        include './auth/user_me.php';
     },
 ];
 
