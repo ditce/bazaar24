@@ -21,8 +21,8 @@ if ($hasEmptyFields) {
     die();
 }
 
-$user = User::findByEmail($request['email']);
-$isCorrectPassword = password_verify($user->$password, $request['password']);
+$user = User::findByEmail(htmlspecialchars($request['email']));
+$isCorrectPassword = password_verify($user->$password, htmlspecialchars($request['password']));
 
 if (!$user || !$isCorrectPassword) {
     http_response_code(403);
