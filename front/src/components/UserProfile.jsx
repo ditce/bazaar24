@@ -7,8 +7,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await API.get('/api/user-profile');
-        console.log('-------')
+        const response = await API.get('me');
         setUserData(response.data);
       } catch (error) {
         console.log('Failed to fetch user data:', error);

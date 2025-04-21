@@ -15,10 +15,8 @@ const Login = () => {
     try {
       const response = await API.post('login', userData);
       console.log(response.data);
-      alert(response.data.message || 'Password reset link sent!');
     } catch (error) {
       console.log('Password reset failed:', error);
-      alert('Password reset failed. Please try again.');
     }
   };
 

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import API from '../utilities/API';
 
 const Registration = () => {
   const [userData, setUserData] = useState({ email: '', password: '' });
+  const nav = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -13,12 +14,11 @@ const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await API.post('/api/register', userData);
+      const response = await API.post('register', userData);
       console.log(response.data);
-      alert(response.data.message || 'Registration successful!');
+      nav('/profile');
     } catch (error) {
       console.log('Registration failed:', error);
-      alert('Registration failed. Please try again.');
     }
   };
 
@@ -29,6 +29,14 @@ const Registration = () => {
         type="email"
         name="email"
         placeholder="Email"
+        onChange={handleChange}
+        required
+        className="border border-light-grey rounded-lg p-2 focus:ring-2 focus:ring-blue-light"
+      />
+      <input
+        type="full_name"
+        name="full_name"
+        placeholder="Full name"
         onChange={handleChange}
         required
         className="border border-light-grey rounded-lg p-2 focus:ring-2 focus:ring-blue-light"
