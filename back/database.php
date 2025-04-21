@@ -5,8 +5,8 @@ class Database {
 
     public static function connect() {
         if (!self::$pdo) {
-            $user = getenv('DB_USER');
-            $password = getenv('DB_PASSWORD');
+            $user = getenv('DB_USER') ?: 'postgres';
+            $password = getenv('DB_PASSWORD') ?: 'Shadow';
 
             try {
                 self::$pdo = new PDO('pgsql:host=localhost;port=5432;dbname=bazaar', $user, $password);

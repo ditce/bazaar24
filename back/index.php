@@ -1,13 +1,14 @@
 <?php
 ini_set('session.cookie_domain', 'http://localhost:5175');
 
-header('Access-Control-Allow-Origin: http://localhost:5175');
-header('Access-Control-Allow-Credentials: true');
+header("Access-Control-Allow-Origin: http://localhost:5175");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type');
-    exit(0);
+    http_response_code(200);
+    exit();
 }
 
 $url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
