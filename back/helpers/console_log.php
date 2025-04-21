@@ -1,7 +1,5 @@
 <?php
 function console_log($data, $context = 'Debug in Console') {
-
-    // Buffering to solve problems frameworks, like header() in this and not a solid return.
     ob_start();
 
     $output  = 'console.info(\'' . $context . ':\');';
@@ -9,4 +7,6 @@ function console_log($data, $context = 'Debug in Console') {
     $output  = sprintf('<script>%s</script>', $output);
 
     echo $output;
+}
 ?>
+
