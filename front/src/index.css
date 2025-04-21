@@ -19,7 +19,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(to bottom, #D6A9F0, #A6C8FF); /* Gradient lejla me blu të lehtë */
+  background: linear-gradient(to bottom, #d6a9f0, #a6c8ff);
   color: white;
 }
 
@@ -54,17 +54,18 @@ button {
   padding: 1em;
   font-size: 1rem;
   font-weight: 500;
-  background-color: #4C6EF5;
+  background-color: #4c6ef5;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #2C4BB5;
+  background-color: #2c4bb5;
 }
 
-h1, h2 {
+h1,
+h2 {
   text-align: center;
   color: white;
   font-size: 2.5rem;
