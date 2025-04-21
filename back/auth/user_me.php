@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
     die();
 }
 
-require '../entities/Users.php';
+require __DIR__ . '/../entities/Users.php';
 
 session_start();
 

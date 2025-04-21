@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     die();
 }
 
-require '../entities/Users.php';
+require __DIR__ . '/../entities/Users.php';
 
 $rawInput = file_get_contents("php://input");
 
