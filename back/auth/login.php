@@ -22,10 +22,18 @@ if ($hasEmptyFields) {
 }
 
 $user = User::findByEmail(htmlspecialchars($request['email']));
+if (!$user) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Wrong Credentials']);
+    die();
+}
 
-$isCorrectPassword = password_verify(htmlspecialchars($request['password']), $user->password ?? '');
+$isCorrectPassword = password_verify(
+    htmlspecialchars($request['password']), 
+    $user->password_hash
+);
 
-if (!$user || !$isCorrectPassword) {
+if (!$isCorrectPassword) {
     http_response_code(403);
     echo json_encode(['error' => 'Wrong Credentials']);
     die();

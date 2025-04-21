@@ -11,7 +11,7 @@ $rawInput = file_get_contents("php://input");
 
 $request = json_decode($rawInput, true);
 
-$input_fields = ['email', 'username', 'password', 'full_name', 'phone_number'];
+$input_fields = ['email', 'password', 'full_name'];
 
 $hasEmptyFields = array_any($input_fields, fn($input) => empty($request[$input]));
 
@@ -29,10 +29,8 @@ if (User::findByEmail($request['email'])) {
 
 $userData = [
     'email' => htmlspecialchars($request['email']),
-    'username' => htmlspecialchars($request['username']),
-    'password' => password_hash($request['password'], PASSWORD_DEFAULT),
+    'password_hash' => password_hash($request['password'], PASSWORD_DEFAULT),
     'full_name' => htmlspecialchars($request['full_name']),
-    'phone_number' => htmlspecialchars($request['phone_number'])
 ];
 
 $newUser = new User($userData);
