@@ -6,7 +6,6 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,32 +16,24 @@
 body {
   margin: 0;
   display: flex;
-  justify-content: center; /* Qendra horizontalisht */
-  align-items: center; /* Qendra vertikalisht */
-  min-width: 320px;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
   background: linear-gradient(to bottom, #D6A9F0, #A6C8FF); /* Gradient lejla me blu të lehtë */
   color: white;
-  font-size: 18px; /* Për ta bërë tekstin më të lexueshëm */
-}
-
-h1, h2 {
-  text-align: center;
-  color: white;
-  font-size: 2.5rem; /* Rritur madhësia e titujve */
 }
 
 form {
   display: flex;
-  flex-direction: column; /* Elementet janë në rreshta të ndarë */
-  justify-content: center; /* Qendra në drejtimin vertikal të formës */
-  align-items: center; /* Qendra në drejtimin horizontal të formës */
-  gap: 1rem; /* Hapësirë mes inputeve dhe butonit */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   max-width: 400px;
   width: 100%;
-  margin: auto; /* Për ta vendosur në qendër */
+  margin: auto;
   padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.1); /* Pak më e errët për kontrast */
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -63,14 +54,20 @@ button {
   padding: 1em;
   font-size: 1rem;
   font-weight: 500;
-  background-color: grey; /* Ngjyrë blu për butonin */
+  background-color: #4C6EF5;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #2C4BB5; 
+  background-color: #2C4BB5;
+}
+
+h1, h2 {
+  text-align: center;
+  color: white;
+  font-size: 2.5rem;
 }
 
 a {
@@ -81,17 +78,4 @@ a {
 
 a:hover {
   color: #535bf2;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }

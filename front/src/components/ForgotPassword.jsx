@@ -4,39 +4,49 @@ import axios from 'axios';
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
 
-  const handleChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const handleChange = (e) => setEmail(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('/api/forgot-password', { email });
       console.log(response.data);
-      alert(response.data.message || 'Recovery email sent!');
+      alert(response.data.message || 'Password reset link sent!');
     } catch (error) {
-      console.log('Recovery error:', error);
-      alert('Could not send recovery email. Please try again later.');
+      console.log('Password reset failed:', error);
+      alert('Password reset failed. Please try again.');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-12 p-6 bg-white rounded-2xl shadow-lg flex flex-col gap-4">
-      <h2 className="text-2xl font-bold text-center text-violet-500">Forgot Password</h2>
-      <input 
-        type="email" 
-        value={email}
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-12 p-6 bg-lavender rounded-2xl shadow-lg flex flex-col gap-4">
+      <h2 className="text-3xl font-bold text-center text-soft-white">Forgot Password</h2>
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your email"
         onChange={handleChange}
-        placeholder="Email" 
         required
-        className="border p-2 rounded-md"
+        className="border border-light-grey rounded-lg p-2 focus:ring-2 focus:ring-blue-light"
       />
-      <button 
+      <button
         type="submit"
-        className="bg-violet-500 text-white py-2 px-4 rounded-md hover:bg-violet-600 transition"
+        className="bg-blue-light text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
       >
-        Recover Password
+        Reset Password
       </button>
+
+      <div className="mt-4 text-center">
+        <p className="text-sm text-gray-300">
+          Already have an account?{' '}
+          <Link
+            to="/login"
+            className="text-blue-400 hover:text-blue-500 underline transition duration-200"
+          >
+            Log in
+          </Link>
+        </p>
+      </div>
     </form>
   );
 };

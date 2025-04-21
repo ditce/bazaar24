@@ -8,7 +8,7 @@ import UserProfile from './components/UserProfile';
 
 function App() {
   return (
-    <div className="min-h-screen bg-lavender text-violet">
+    <div className="min-h-screen bg-gradient-light text-soft-white">
       <Router>
         <Routes>
           <Route path="/register" element={<Registration />} />

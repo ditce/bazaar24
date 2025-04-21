@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Registration = () => {
   const [userData, setUserData] = useState({ email: '', password: '' });
@@ -22,15 +23,15 @@ const Registration = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-12 p-6 bg-white rounded-2xl shadow-lg flex flex-col gap-4">
-      <h2 className="text-2xl font-bold text-center text-violet">Register</h2>
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-12 p-6 bg-lavender rounded-2xl shadow-lg flex flex-col gap-4">
+      <h2 className="text-3xl font-bold text-center text-soft-white">Register</h2>
       <input
         type="email"
         name="email"
         placeholder="Email"
         onChange={handleChange}
         required
-        className="border border-gray-300 rounded-lg p-2"
+        className="border border-light-grey rounded-lg p-2 focus:ring-2 focus:ring-blue-light"
       />
       <input
         type="password"
@@ -38,14 +39,26 @@ const Registration = () => {
         placeholder="Password"
         onChange={handleChange}
         required
-        className="border border-gray-300 rounded-lg p-2"
+        className="border border-light-grey rounded-lg p-2 focus:ring-2 focus:ring-blue-light"
       />
       <button
         type="submit"
-        className="bg-turquoise text-white font-semibold py-2 rounded-lg hover:bg-violet transition"
+        className="bg-blue-light text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
       >
         Register
       </button>
+
+      <div className="mt-4 text-center">
+        <p className="text-sm text-gray-300">
+          Keni llogari?{' '}
+          <Link
+            to="/login"
+            className="text-blue-400 hover:text-blue-500 underline transition duration-200"
+          >
+            Kyçuni këtu
+          </Link>
+        </p>
+      </div>
     </form>
   );
 };
