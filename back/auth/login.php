@@ -11,7 +11,7 @@ $rawInput = file_get_contents("php://input");
 
 $request = json_decode($rawInput, true);
 
-$input_fields = ['username', 'password', 'full_name', 'phone_number'];
+$input_fields = ['username', 'password'];
 
 $hasEmptyFields = array_any($input_fields, fn($input) => empty($request[$input]));
 
@@ -21,21 +21,19 @@ if ($hasEmptyFields) {
     die();
 }
 
-if (User::findByEmail($request['email'])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Cannot create user']);
+$user = User::findByEmail($request['email']);
+$isCorrectPassword = password_verify($user->$password, $request['password']);
+
+if (!$user || !$isCorrectPassword) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Wrong Credentials']);
     die();
 }
 
-$userData = [
-    'username' => $request['username'],
-    'password' => password_hash($request['password'], PASSWORD_DEFAULT),
-    'full_name' => $request['full_name'],
-    'phone_number' => $request['phone_number']
-];
+session_start();
 
-$newUser = new User($userData);
-$newUser->save();
+$_SESSION['user_id'] = $user->$id;
+$_SESSION['email'] = $email;
 
 echo json_encode(['message' => 'User registered successfully']);
 die();
