@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import API from '../utilities/API';
 
 const Registration = () => {
   const [userData, setUserData] = useState({ email: '', password: '' });
@@ -13,7 +13,7 @@ const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/register', userData);
+      const response = await API.post('/api/register', userData);
       console.log(response.data);
       alert(response.data.message || 'Registration successful!');
     } catch (error) {

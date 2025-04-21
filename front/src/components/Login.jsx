@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import API from '../utilities/API';
 
 const Login = () => {
   const [userData, setUserData] = useState({ email: '', password: '' });
@@ -11,7 +12,14 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Logging in with:', userData);
+    try {
+      const response = await API.post('login', userData);
+      console.log(response.data);
+      alert(response.data.message || 'Password reset link sent!');
+    } catch (error) {
+      console.log('Password reset failed:', error);
+      alert('Password reset failed. Please try again.');
+    }
   };
 
   return (
