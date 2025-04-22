@@ -15,10 +15,12 @@ const Registration = () => {
     e.preventDefault();
     try {
       const response = await API.post('register', userData);
+      alert(response.data.message || 'Registration successful!');
       console.log(response.data);
       nav('/profile');
     } catch (error) {
       console.log('Registration failed:', error);
+      alert('Registration failed. Please try again.');
     }
   };
 

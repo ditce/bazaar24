@@ -16,9 +16,11 @@ const Login = () => {
     try {
       const response = await API.post("login", userData);
       console.log(response.data);
+      alert(response.data.message || 'Login successful!');
       nav("/profile");
     } catch (error) {
       console.log("Password reset failed:", error);
+      alert('Login failed.');
     }
   };
 
