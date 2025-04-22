@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import API from '../utilities/API';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import API from "../utilities/API";
 
 const Login = () => {
+  const nav = useNavigate();
   const [userData, setUserData] = useState({ email: '', password: '' });
 
   const handleChange = (e) => {
@@ -13,10 +14,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await API.post('login', userData);
+      const response = await API.post("login", userData);
       console.log(response.data);
+      nav("/profile");
     } catch (error) {
-      console.log('Password reset failed:', error);
+      console.log("Password reset failed:", error);
     }
   };
 
