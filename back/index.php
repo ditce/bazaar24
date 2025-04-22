@@ -1,24 +1,21 @@
 <?php
-ini_set('session.cookie_domain', 'localhost');
-ini_set('session.cookie_samesite', 'None');
-ini_set('session.cookie_secure', 'true');
 session_set_cookie_params([
     'lifetime' => 3600,
     'path' => '/',
-    'domain' => 'localhost',
+    'secure' => false,
     'httponly' => true,
-    'samesite' => 'None'
+    'samesite' => 'None',
 ]);
-
+session_start();
 
 header("Access-Control-Allow-Origin: http://localhost:5175");
 header("Access-Control-Allow-Credentials: true");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Content-Type: application/json");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type");
+    exit;
 }
 
 $url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');

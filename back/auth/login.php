@@ -39,8 +39,6 @@ if (!$isCorrectPassword) {
     die();
 }
 
-session_start();
-
 $_SESSION['user_id'] = $user->id;
 $_SESSION['email'] = $user->email;
 

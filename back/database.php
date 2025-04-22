@@ -12,6 +12,7 @@ class Database {
                 self::$pdo = new PDO('pgsql:host=localhost;port=5432;dbname=bazaar', $user, $password);
             } catch (PDOException $e) {
                 error_log($e->getMessage());
+                return null;
             }
         }
         return self::$pdo;
