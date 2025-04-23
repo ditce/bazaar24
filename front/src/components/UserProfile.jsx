@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../utilities/API';
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -7,7 +7,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('/api/user-profile');
+        const response = await API.get('me');
         setUserData(response.data);
       } catch (error) {
         console.log('Failed to fetch user data:', error);

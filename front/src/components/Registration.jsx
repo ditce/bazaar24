@@ -1,45 +1,23 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Select from 'react-select';
-import countryList from 'react-select-country-list';
-import ReactCountryFlag from 'react-country-flag';
 
 const Registration = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    surname: '',
-    day: '',
-    month: '',
-    year: '',
-    gender: '',
-    phone: '',
-    country: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [error, setError] = useState('');
+  const [userData, setUserData] = useState({ email: '', password: '' });
 
-  const options = useMemo(
-    () => countryList().getData().map(c => ({ label: c.label, value: c.value, flag: c.value })),
-    []
-  );
-
-  const handleChange = e => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-
-  const handleCountryChange = opt => setFormData(prev => ({ ...prev, country: opt?.label || '' }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
     try {
-      const res = await axios.post('/api/register', formData);
-      alert(res.data.message || 'Registration successful!');
-    } catch (err) {
-      console.error(err);
+      const response = await axios.post('/api/register', userData);
+      console.log(response.data);
+      alert(response.data.message || 'Registration successful!');
+    } catch (error) {
+      console.log('Registration failed:', error);
       alert('Registration failed. Please try again.');
     }
   };
@@ -141,28 +119,8 @@ const Registration = () => {
         onInput={e => (e.target.value = e.target.value.replace(/[^0-9+]/g, ''))}
         onChange={handleChange}
         required
-        className="p-3 text-lg rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-400"
+        className="border border-light-grey rounded-lg p-2 focus:ring-2 focus:ring-blue-light"
       />
-
-      {/* Country */}
-      <Select
-        options={options}
-        onChange={handleCountryChange}
-        placeholder="Select Country"
-        className="text-black"
-        formatOptionLabel={({ label, flag }) => (
-          <div className="flex items-center gap-2">
-            <ReactCountryFlag countryCode={flag} svg style={{ width: '1.5em', height: '1.5em' }} />
-            <span>{label}</span>
-          </div>
-        )}
-        styles={{
-          control: base => ({ ...base, padding: '6px', borderRadius: '0.75rem', borderColor: '#d1d5db' }),
-          singleValue: base => ({ ...base, color: 'black', display: 'flex', alignItems: 'center' }),
-          option: (base, { isFocused }) => ({ ...base, backgroundColor: isFocused ? '#e5e7eb' : 'white', color: 'black' }),
-        }}
-      />
-
       <input
         type="password"
         name="password"

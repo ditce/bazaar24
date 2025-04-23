@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import API from '../utilities/API';
 
 const Login = () => {
   const [userData, setUserData] = useState({ email: '', password: '' });
@@ -12,18 +13,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    try {
-      const response = await axios.post('ARDIT_KETU_URL_PER_SERVERIN/login', {
-        email: userData.email,
-        password: userData.password,
-      });
-      alert('Login successful!');
-      console.log(response.data);
-    } catch (err) {
-      alert('Something went wrong.');
-      console.error(err);
-    }
+    console.log('Logging in with:', userData);
   };
   
 
