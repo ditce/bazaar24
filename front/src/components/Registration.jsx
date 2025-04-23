@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import API from "../utilities/API";
-import { Link, useNavigate, useNavigationType } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Registration = () => {
-  const [userData, setUserData] = useState({ email: "", password: "" });
+  const [userData, setUserData] = useState();
   const nav = useNavigate()
 
   const handleChange = (e) => {
