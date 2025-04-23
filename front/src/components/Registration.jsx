@@ -140,7 +140,6 @@ const Registration = () => {
         className="p-3 text-lg rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-400"
       />
 
-      {error && <p className="text-red-500 text-center">{error}</p>}
 
       <button
         type="submit"
