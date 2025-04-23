@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
@@ -11,8 +12,20 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Logging in with:', userData);
+    
+    try {
+      const response = await axios.post('ARDIT_KETU_URL_PER_SERVERIN/login', {
+        email: userData.email,
+        password: userData.password,
+      });
+      alert('Login successful!');
+      console.log(response.data);
+    } catch (err) {
+      alert('Something went wrong.');
+      console.error(err);
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-lavender-300 to-blue-200">
