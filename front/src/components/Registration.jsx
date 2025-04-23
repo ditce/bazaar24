@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import API from "../utilities/API";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useNavigationType } from "react-router-dom";
 
 const Registration = () => {
   const [userData, setUserData] = useState({ email: "", password: "" });
+  const nav = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -13,10 +14,11 @@ const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(userData)
       const response = await API.post("register", userData);
       alert(response.data.message || "Registration successful!");
       console.log(response.data);
-      alert(response.data.message || "Registration successful!");
+      nav('/profile')
     } catch (error) {
       console.log("Registration failed:", error);
       alert("Registration failed. Please try again.");
@@ -49,6 +51,15 @@ const Registration = () => {
         onChange={handleChange}
         required
         className="p-3 text-lg rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 bg-white placeholder-gray-500"
+      />
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        onChange={handleChange}
+        required
+        className="p-3 text-lg rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-light bg-white placeholder-gray-500"
       />
 
       <div className="flex gap-4">
@@ -136,7 +147,7 @@ const Registration = () => {
 
       <input
         type="text"
-        name="phone"
+        name="phone_number"
         placeholder="Mobile Number"
         onInput={(e) =>
           (e.target.value = e.target.value.replace(/[^0-9+]/g, ""))

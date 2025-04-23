@@ -1,54 +1,61 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import API from '../utilities/API';
+jimport React, { useState } from "react";
+import { Link } from "react-router-dom";
+import API from "../utilities/API";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   const handleChange = (e) => setEmail(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await API.post('forgot-password', { email });
+      const response = await API.post("forgot-password", { email });
       console.log(response.data);
-      alert(response.data.message || 'Password reset link sent!');
+      alert(response.data.message || "Password reset link sent!");
     } catch (error) {
-      console.log('Password reset failed:', error);
-      alert('Password reset failed. Please try again.');
+      console.log("Password reset failed:", error);
+      alert("Password reset failed. Please try again.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-12 p-6 bg-lavender rounded-2xl shadow-lg flex flex-col gap-4">
-      <h2 className="text-3xl font-bold text-center text-soft-white">Forgot Password</h2>
-      <input
-        type="email"
-        name="email"
-        placeholder="Enter your email"
-        onChange={handleChange}
-        required
-        className="border border-light-grey rounded-lg p-2 focus:ring-2 focus:ring-blue-light"
-      />
-      <button
-        type="submit"
-        className="bg-blue-light text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+    <div className="min-h-screen flex justify-center items-center bg-radial from-sky-200/20 to-blue-500">
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-md w-full p-8 bg-white/20 rounded-3xl shadow-2xl backdrop-blur-md transition-shadow flex flex-col gap-5"
       >
-        Reset Password
-      </button>
+        <h2 className="mb-6 text-4xl font-extrabold text-center text-indigo-900 drop-shadow">
+          Forgot Password
+        </h2>
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter your email"
+          onChange={handleChange}
+          required
+          className="p-3 text-lg rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-light bg-white placeholder-gray-500"
+        />
+        <button
+          type="submit"
+          className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow transition-colors"
+        >
+          Reset Password
+        </button>
 
-      <div className="mt-4 text-center">
-        <p className="text-sm text-gray-300">
-          Already have an account?{' '}
-          <Link
-            to="/login"
-            className="text-blue-400 hover:text-blue-500 underline transition duration-200"
-          >
-            Log in
-          </Link>
-        </p>
-      </div>
-    </form>
+        <div className="text-center mt-4">
+          <p className="text-sm text-indigo-900">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-blue-600 hover:underline font-semibold"
+            >
+              Log in
+            </Link>
+          </p>
+        </div>
+      </form>
+    </div>
   );
 };
 

@@ -58,7 +58,7 @@ const Login = () => {
           Login
         </button>
 
-        <div className="text-center mt-2">
+        <div className="text-center">
           <p className="text-sm text-indigo-900">
             <Link
               to="/forgot-password"
@@ -69,7 +69,7 @@ const Login = () => {
           </p>
         </div>
 
-        <div className="text-center mt-2">
+        <div className="text-center">
           <p className="text-sm text-indigo-900">
             Don't have an account?{" "}
             <Link
