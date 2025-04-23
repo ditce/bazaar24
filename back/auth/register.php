@@ -30,7 +30,8 @@ if (User::findByEmail($request['email'])) {
 $userData = [
     'email' => htmlspecialchars($request['email']),
     'password_hash' => password_hash($request['password'], PASSWORD_DEFAULT),
-    'full_name' => htmlspecialchars($request['full_name']),
+    'full_name' => htmlspecialchars($request['firstName']) . htmlspecialchars($request['firstName']),
+    'phone_number' => htmlspecialchars($request['phone_number']),
 ];
 
 $newUser = new User($userData);

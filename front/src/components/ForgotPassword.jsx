@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../utilities/API';
 
-
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
 
@@ -11,7 +10,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await API.post('/api/forgot-password', { email });
+      const response = await API.post('forgot-password', { email });
       console.log(response.data);
       alert(response.data.message || 'Password reset link sent!');
     } catch (error) {
