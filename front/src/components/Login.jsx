@@ -23,6 +23,7 @@ const Login = () => {
       alert('Login failed.');
     }
   };
+  
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-lavender-300 to-blue-200">
