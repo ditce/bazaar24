@@ -7,16 +7,19 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
 
 require __DIR__ . '/../entities/Users.php';
 
-session_start();
-
 if (!isset($_SESSION['email'])) {
     http_response_code(403);
-    echo json_encode([ 'error' => 'Problem with authentication']);
+    echo json_encode(['error' => 'Problem with authentication']);
     die();
 }
 
 $currentUser = User::findByEmail($_SESSION['email']);
+error_log(print_r($currentUser, true));
 
-echo json_encode($currentUser);
-
-?>
+echo json_encode(
+    [
+        'id' => $currentUser->id,
+        'username' => $currentUser->full_name,
+        'email' => $currentUser->email,
+    ]
+);

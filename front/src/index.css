@@ -67,8 +67,8 @@ button:hover {
 h1,
 h2 {
   text-align: center;
-  color: white;
-  font-size: 2.5rem;
+  color: rgba(0, 0, 0, 0.597);
+  font-size: 2rem;
 }
 
 a {

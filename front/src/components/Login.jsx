@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import API from '../utilities/API';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import API from "../utilities/API";
 
 const Login = () => {
+  const nav = useNavigate();
   const [userData, setUserData] = useState({ email: '', password: '' });
 
   const handleChange = (e) => {
@@ -13,12 +14,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await API.post('login', userData);
+      const response = await API.post("login", userData);
       console.log(response.data);
+      alert(response.data.message || 'Login successful!');
+      nav("/profile");
     } catch (error) {
-      console.log('Password reset failed:', error);
+      console.log("Password reset failed:", error);
+      alert('Login failed.');
     }
   };
+  
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-lavender-300 to-blue-200">
