@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
+import Navbar from './Navbar';  
 import Footer from './Footer';
 import ListingCard from './ListingCard';
 
 const categories = [
   { name: 'Pune', color: 'from-pink-200 to-pink-400' },
   { name: 'Makina', color: 'from-blue-200 to-blue-400' },
-  { name: 'Apartamente', color: 'from-green-200 to-green-400' },
+  { name: 'Shtepi', color: 'from-green-200 to-green-400' }, // Ndryshuar nga "Apartamente" ne "Shtepi"
   { name: 'Qira', color: 'from-purple-200 to-purple-400' },
 ];
 
 const featured = [
   { id: 1, title: '2018 BMW 3 Series', price: '€25,000', image: '/images/bmw.jpg', type: 'Makina' },
-  { id: 2, title: 'Apartament 2 dhoma qendra', price: '€1,200/muaj', image: '/images/apartment.jpg', type: 'Apartamente' },
+  { id: 2, title: 'Apartament 2 dhoma qendra', price: '€1,200/muaj', image: '/images/apartment.jpg', type: 'Shtepi' }, // Ndryshuar tipin
   { id: 3, title: 'Front-End Developer', price: '€70,000/vit', image: '/images/jobs.jpg', type: 'Pune' },
   { id: 4, title: '2016 Audi A4', price: '€20,500', image: '/images/audi.jpg', type: 'Makina' },
 ];
@@ -34,7 +34,7 @@ export default function Home() {
       <Navbar />
       <div className="relative bg-cover bg-center h-96" style={{ backgroundImage: "url('/images/hero.jpg')" }}>
         <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-5xl font-extrabold text-white drop-shadow-lg">Gjej Mundesinë Tende</h1>
+          <h1 className="text-5xl font-extrabold text-white drop-shadow-lg">Gjej Mundesine Tende</h1>
           <p className="mt-4 text-lg text-gray-200 max-w-xl">Kerko, bli, merr me qira ose gjej pune — shpejt dhe lehte ne Bazaar24.</p>
           <form onSubmit={handleSearchSubmit} className="mt-6 flex w-full max-w-md">
             <input
