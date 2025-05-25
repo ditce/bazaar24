@@ -8,9 +8,6 @@ module.exports = {
         "soft-white": "#FFFFFF",
         "blue-light": "#A6C8FF",
       },
-      backgroundImage: {
-        "gradient-light": "linear-gradient(to bottom, #D6A9F0, #A6C8FF)",
-      },
     },
   },
   plugins: [],

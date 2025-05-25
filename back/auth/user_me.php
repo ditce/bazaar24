@@ -21,7 +21,5 @@ echo json_encode(
         'id' => $currentUser->id,
         'username' => $currentUser->full_name,
         'email' => $currentUser->email,
-        'createdAt' => $currentUser->created_at,
-        'isAdmin' => $currentUser->isAdmin,
     ]
 );

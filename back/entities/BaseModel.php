@@ -27,7 +27,7 @@ abstract class Model {
         $this->attributes = $attributes;
     }
 
-    public static function find($id): ?Model {
+    public static function findById($id): ?Model {
         $instance = new static();
         $pdo = Database::connect();
 
