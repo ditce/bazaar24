@@ -6,6 +6,8 @@ import Login from './components/Login';
 import ForgotPassword from './components/ForgotPassword';
 import UserProfile from './components/UserProfile';
 import Home from './components/Home';
+import SearchResults from './components/SearchResults.jsx';
+import ListingDetail from './components/ListingDetail';
 import SearchResults from './components/SearchResults';
 import ListingDetail from './components/ListingDetail';
 import CreateListing from './components/CreateListing';

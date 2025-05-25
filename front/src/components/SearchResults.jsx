@@ -5,7 +5,6 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import ListingCard from './ListingCard';
 
-// Te dhenat demo per rezultatet - 10 per cdo kategori me foto profesionale
 const demoListings = {
   'Pune': [
     { id: 101, title: 'Kerkohet Programues React', price: '€80,000/vit', image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop', type: 'Pune', location: 'Tirane' },
@@ -219,7 +218,6 @@ export default function SearchResults() {
           )}
         </main>
       </div>
-      
       <Footer />
     </div>
   );

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';  
 import Footer from './Footer';
 import ListingCard from './ListingCard';
+import API from "../utilities/API";
 
 const categories = [
   { name: 'Pune', color: 'from-pink-200 to-pink-400' },
@@ -11,7 +12,6 @@ const categories = [
   { name: 'Qira', color: 'from-purple-200 to-purple-400' },
 ];
 
-// 8 listime kryesore me foto profesionale
 const featured = [
   { id: 201, title: 'BMW 3 Series 2019', price: '€32,000', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop', type: 'Makina', location: 'Tirane' },
   { id: 301, title: 'Apartament 2+1 qendra', price: '€120,000', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop', type: 'Shtepi', location: 'Tirane' },
@@ -25,7 +25,25 @@ const featured = [
 
 export default function Home() {
   const [search, setSearch] = useState('');
+  // const [featured, setFeatured] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // !TODO: Uncomment and implement the API call to fetch featured listings
+    // const fetchFeaturedListings = async () => {
+    //   try {
+    //     const response = await API.get("featured-listings");
+    //     setFeatured(response.data);
+    //   } catch (error) {
+    //     console.error("Failed to fetch featured listings:", error);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+    
+    // fetchFeaturedListings();
+  }, []);
 
   const handleSearchSubmit = e => {
     e.preventDefault();
@@ -72,9 +90,15 @@ export default function Home() {
       </section>
       <section className="py-12 px-6 flex-1 bg-gray-100">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Listimet Kryesore</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featured.map(item => <ListingCard key={item.id} listing={item} />)}
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center h-40">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featured.map(item => <ListingCard key={item.id} listing={item} />)}
+          </div>
+        )}
       </section>
       <Footer />
     </div>

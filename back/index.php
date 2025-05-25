@@ -8,35 +8,46 @@ session_set_cookie_params([
 ]);
 session_start();
 
-header("Access-Control-Allow-Origin: http://localhost:5175");
+header("Access-Control-Allow-Origin: http://localhost:5174");
 header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type");
+    http_response_code(200);
     exit;
 }
 
-$url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-header('Content-Type: application/json');
+$request_uri = $_SERVER['REQUEST_URI'];
+$path = parse_url($request_uri, PHP_URL_PATH);
+$url = trim($path, '/');
+$params = [];
 
-$routes = [
-    'register' => function() {
-        include './auth/register.php';
-    },
-    'login' => function() {
-        include './auth/login.php';
-    },
-    'me' => function() {
-        include './auth/user_me.php';
-    },
+$static_routes = [
+    'register' => './auth/register.php',
+    'login' => './auth/login.php',
+    'me' => './auth/user_me.php',
+    'forgot-password' => './auth/forgot_pass.php',
+    'search' => './listing/search.php',
+    'listing' => './listing/detail.php',
+    'featured-listings' => './listing/featured.php',
+    'categories' => './listing/categories.php',
+    'subcategories' => './listing/subcategories.php',
 ];
 
-if (array_key_exists($url, $routes)) {
-    $routes[$url]();
+if (isset($static_routes[$url])) {
+    include $static_routes[$url];
+    exit;
 } else {
-    echo "404 Page Not Found";
+    if (preg_match('#^user/([^/]+)$#', $url, $matches)) {
+        $_GET['id'] = $matches[1];
+        include './user/profile.php';
+        exit;
+    } else {
+        http_response_code(404);
+        echo json_encode(['error' => '404 Page Not Found']);
+        exit;
+    }
 }
-
 ?>

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import AddToCartButton from './AddToCartButton';
 
 export default function ListingCard({ listing }) {
-  // Funksion per te percaktuar ngjyren e etiketes bazuar ne tipin
   const getTagColorClass = (type) => {
     switch(type) {
       case 'Pune':
@@ -60,8 +59,6 @@ export default function ListingCard({ listing }) {
     e.target.src = fallbackImage;
   };
 
-  // Kontrollo nese artikulli mund te shtohet ne shporte
-  // VETEM makina, shtepi dhe qira (jo pune)
   const canAddToCart = listing.type === 'Makina' || listing.type === 'Shtepi' || listing.type === 'Qira';
 
   return (
