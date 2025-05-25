@@ -9,8 +9,4 @@ const axiosInstance = axios.create({
   withCredentials: true
 });
 
-<<<<<<< HEAD
-  
-=======
 export default axiosInstance;
->>>>>>> 422e30022f83921cc1cec33a22cd7aeef868406f
