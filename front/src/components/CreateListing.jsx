@@ -20,7 +20,7 @@ const CreateListing = () => {
     'Tepelene', 'Gramsh', 'Burrel', 'Himare', 'Delvine', 'Lac', 'Koplik', 'Fushe-Kruje'
   ];
 
-  // Kategoritë dhe opsionet
+  // Kategorite dhe opsionet
   const categories = {
     'Pune': {
       title: 'Shto nje pozicion pune',
@@ -168,15 +168,15 @@ const CreateListing = () => {
     }
   };
 
-  // Ndrysho fushat bazuar në kategorinë e zgjedhur
+  // Ndrysho fushat bazuar ne kategorine e zgjedhur
   useEffect(() => {
     if (category) {
-      setListingData({}); // Pastrojmë të dhënat e formularit kur ndryshon kategoria
+      setListingData({}); // Pastrojme te dhenat e formularit kur ndryshon kategoria
       setPreviewImage(null);
     }
   }, [category]);
 
-  // Trajtojmë ndryshimet në formular
+  // Trajtojme ndryshimet ne formular
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     
@@ -195,48 +195,45 @@ const CreateListing = () => {
     }
   };
 
-  // Dërgojmë të dhënat në server
+  // Dergojme te dhenat ne server
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
     
     try {
-      // Formatojmë të dhënat për t'i dërguar
+      // Formatojme te dhenat per t'i derguar
       const formattedData = {
         ...listingData,
         type: category,
         publishedDate: new Date().toISOString(),
       };
       
-      // Krijojmë një FormData për të dërguar edhe imazhin
+      // Krijojme nje FormData per te derguar edhe imazhin
       const formData = new FormData();
       for (const key in formattedData) {
         formData.append(key, formattedData[key]);
       }
       
-      // API call për të krijuar listimin
-      // const response = await API.post('/listings', formData, {
-      //   headers: { 'Content-Type': 'multipart/form-data' }
-      // });
+      // API call per te krijuar listimin
+      await API.post('/listings', formData);
       
-      // Simulojmë një përgjigje të suksesshme
       console.log('Listimi u krijua me sukses!', formattedData);
       
-      // Ridrejtojmë tek profili pas krijimit të suksesshëm
+      // Ridrejtojme tek profili pas krijimit te suksesshem
       setTimeout(() => {
         navigate('/profile');
       }, 1500);
       
     } catch (err) {
-      console.error('Gabim në krijimin e listimit:', err);
-      setError('Ndodhi një gabim gjatë krijimit të listimit. Ju lutem provoni përsëri.');
+      console.error('Gabim ne krijimin e listimit:', err);
+      setError('Ndodhi nje gabim gjate krijimit te listimit. Ju lutem provoni perseri.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Rendero formularin bazuar në kategorinë e zgjedhur
+  // Rendero formularin bazuar ne kategorine e zgjedhur
   const renderForm = () => {
     if (!category) return null;
     
@@ -246,7 +243,7 @@ const CreateListing = () => {
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">{categoryData.title}</h2>
         
-        {/* Fushë për ngarkimin e imazhit */}
+        {/* Fushe per ngarkimin e imazhit */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Foto kryesore</label>
           <div className="flex items-center space-x-4">
@@ -275,7 +272,7 @@ const CreateListing = () => {
           </div>
         </div>
         
-        {/* Fushat për kategorinë e zgjedhur */}
+        {/* Fushat per kategorine e zgjedhur */}
         {categoryData.fields.map((field) => (
           <div key={field.name} className="space-y-2">
             <label htmlFor={field.name} className="block text-sm font-medium text-gray-700">
@@ -322,14 +319,14 @@ const CreateListing = () => {
           </div>
         ))}
         
-        {/* Butoni i dërgimit */}
+        {/* Butoni i dergimit */}
         <div className="pt-4">
           <button
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-indigo-600 text-white px-4 py-3 rounded-md hover:bg-indigo-700 transition-colors font-medium disabled:bg-indigo-300"
           >
-            {isSubmitting ? 'Duke dërguar...' : 'Krijo Listimin'}
+            {isSubmitting ? 'Duke derguar...' : 'Krijo Listimin'}
           </button>
         </div>
         
@@ -347,11 +344,11 @@ const CreateListing = () => {
       
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Zgjedhja e kategorisë */}
+          {/* Zgjedhja e kategorise */}
           {!category ? (
             <div className="bg-white p-8 rounded-lg shadow-md">
-              <h1 className="text-3xl font-bold text-gray-800 mb-6">Çfarë deshironi të shitni ose ofroni?</h1>
-              <p className="text-gray-600 mb-8">Zgjidhni kategorinë e listimit që dëshironi të krijoni</p>
+              <h1 className="text-3xl font-bold text-gray-800 mb-6">Cfare deshironi te shitni ose ofroni?</h1>
+              <p className="text-gray-600 mb-8">Zgjidhni kategorine e listimit qe deshironi te krijoni</p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {Object.keys(categories).map((cat) => (
@@ -380,7 +377,7 @@ const CreateListing = () => {
             </div>
           )}
           
-          {/* Formulari për kategorinë e zgjedhur */}
+          {/* Formulari per kategorine e zgjedhur */}
           {renderForm()}
         </div>
       </main>

@@ -61,8 +61,8 @@ export default function ListingCard({ listing }) {
   };
 
   // Kontrollo nese artikulli mund te shtohet ne shporte
-  const canAddToCart = listing.type === 'Makina' || listing.type === 'Shtepi' || 
-    (listing.type === 'Qira' && (listing.details?.type !== 'Apartament' || !listing.details));
+  // VETEM makina, shtepi dhe qira (jo pune)
+  const canAddToCart = listing.type === 'Makina' || listing.type === 'Shtepi' || listing.type === 'Qira';
 
   return (
     <Link 

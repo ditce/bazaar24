@@ -6,8 +6,8 @@ const AddToCartButton = ({ item, className = "" }) => {
   const [isAdded, setIsAdded] = useState(false);
   
   // Kontrollojme nese artikulli mund te shtohet ne shporte
-  const canAddToCart = item && (item.type === 'Makina' || item.type === 'Shtepi' || 
-    (item.type === 'Qira' && item.details?.type !== 'Apartament'));
+  // VETEM makina, shtepi dhe qira (jo pune)
+  const canAddToCart = item && (item.type === 'Makina' || item.type === 'Shtepi' || item.type === 'Qira');
   
   if (!canAddToCart) return null;
   

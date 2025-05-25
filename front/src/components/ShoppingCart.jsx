@@ -15,7 +15,7 @@ const ShoppingCart = () => {
   
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   
-  // Rendero artikujt e sportes
+  // Rendero artikujt e shportes
   const renderCartItems = () => {
     if (cartItems.length === 0) {
       return (
@@ -23,8 +23,8 @@ const ShoppingCart = () => {
           <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          <h3 className="mt-4 text-lg font-medium text-gray-900">Sporta juaj eshte bosh</h3>
-          <p className="mt-1 text-sm text-gray-500">Nuk keni asnje artikull ne sporten tuaj</p>
+          <h3 className="mt-4 text-lg font-medium text-gray-900">Shporta juaj eshte boshe</h3>
+          <p className="mt-1 text-sm text-gray-500">Nuk keni asnje artikull ne shporten tuaj</p>
           <div className="mt-6">
             <Link to="/search" className="text-indigo-600 font-medium hover:text-indigo-500" onClick={toggleCart}>
               Shiko produktet
@@ -105,7 +105,7 @@ const ShoppingCart = () => {
       <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
         <div className="flex justify-between text-base font-medium text-gray-900">
           <p>Shuma totale</p>
-          <p>€{cartTotal.toFixed(2)}</p>
+          <p>€{cartTotal.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
         </div>
         <p className="mt-0.5 text-sm text-gray-500">Transporti dhe taksat llogariten ne hapin e pageses.</p>
         
@@ -283,7 +283,7 @@ const ShoppingCart = () => {
               {/* Header */}
               <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
                 <div className="flex items-start justify-between">
-                  <h2 className="text-lg font-medium text-gray-900">Sporta e blerjeve</h2>
+                  <h2 className="text-lg font-medium text-gray-900">Shporta e blerjeve</h2>
                   <div className="ml-3 h-7 flex items-center">
                     <button
                       type="button"
@@ -298,7 +298,7 @@ const ShoppingCart = () => {
                   </div>
                 </div>
                 
-                {/* Permbajtja e sportes */}
+                {/* Permbajtja e shportes */}
                 {!isCheckingOut ? (
                   <div className="mt-8">
                     {renderCartItems()}
