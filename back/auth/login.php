@@ -17,14 +17,14 @@ $hasEmptyFields = array_any($input_fields, fn($input) => empty($request[$input])
 
 if ($hasEmptyFields) {
     http_response_code(400);
-    echo json_encode(['error' => 'Username and password required']);
+    echo json_encode(['error' => 'Email and password required']);
     die();
 }
 
 $user = User::findByEmail(htmlspecialchars($request['email']));
 if (!$user) {
     http_response_code(403);
-    echo json_encode(['error' => 'Wrong Credentials']);
+    echo json_encode(['error' => 'Invalid credentials']);
     die();
 }
 
@@ -35,7 +35,7 @@ $isCorrectPassword = password_verify(
 
 if (!$isCorrectPassword) {
     http_response_code(403);
-    echo json_encode(['error' => 'Wrong Credentials']);
+    echo json_encode(['error' => 'Invalid credentials']);
     die();
 }
 
@@ -44,6 +44,11 @@ $_SESSION['email'] = $user->email;
 
 echo json_encode([
     'message' => 'Logged in successfully',
+    'user' => [
+        'id' => $user->id,
+        'email' => $user->email,
+        'username' => $user->full_name
+    ]
 ]);
 
 die();
