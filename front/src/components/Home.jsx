@@ -12,37 +12,25 @@ const categories = [
   { name: 'Qira', color: 'from-purple-200 to-purple-400' },
 ];
 
-const featured = [
-  { id: 201, title: 'BMW 3 Series 2019', price: '€32,000', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop', type: 'Makina', location: 'Tirane' },
-  { id: 301, title: 'Apartament 2+1 qendra', price: '€120,000', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop', type: 'Shtepi', location: 'Tirane' },
-  { id: 110, title: 'Software Engineer', price: '€95,000/vit', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop', type: 'Pune', location: 'Tirane' },
-  { id: 203, title: 'Audi A4 2021', price: '€38,000', image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop', type: 'Makina', location: 'Durres' },
-  { id: 401, title: 'Apartament 1+1 me qira', price: '€350/muaj', image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop', type: 'Qira', location: 'Tirane' },
-  { id: 109, title: 'Project Manager', price: '€85,000/vit', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop', type: 'Pune', location: 'Korce' },
-  { id: 308, title: 'Ville me oborr te madh', price: '€380,000', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop', type: 'Shtepi', location: 'Fier' },
-  { id: 206, title: 'Tesla Model 3 2023', price: '€42,000', image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop', type: 'Makina', location: 'Shkoder' }
-];
-
 export default function Home() {
   const [search, setSearch] = useState('');
-  // const [featured, setFeatured] = useState([]);
+  const [featured, setFeatured] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // !TODO: Uncomment and implement the API call to fetch featured listings
-    // const fetchFeaturedListings = async () => {
-    //   try {
-    //     const response = await API.get("featured-listings");
-    //     setFeatured(response.data);
-    //   } catch (error) {
-    //     console.error("Failed to fetch featured listings:", error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
+    const fetchFeaturedListings = async () => {
+      try {
+        const response = await API.get("featured-listings");
+        setFeatured(response.data);
+      } catch (error) {
+        console.error("Failed to fetch featured listings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     
-    // fetchFeaturedListings();
+    fetchFeaturedListings();
   }, []);
 
   const handleSearchSubmit = e => {
