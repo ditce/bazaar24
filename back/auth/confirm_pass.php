@@ -16,7 +16,7 @@ require __DIR__ . '/../entities/Users.php';
 $rawInput = file_get_contents("php://input");
 $request = json_decode($rawInput, true);
 
-if (empty($request['email'])) {
+if (empty($request['code'])) {
     http_response_code(400);
     echo json_encode(['error' => 'Email is required']);
     die();

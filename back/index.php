@@ -29,6 +29,7 @@ $static_routes = [
     'login' => './auth/login.php',
     'me' => './auth/user_me.php',
     'forgot-password' => './auth/forgot_pass.php',
+    'confirm-password' => './auth/confirm_pass.php',
     'search' => './listing/search.php',
     'listing' => './listing/detail.php',
     'featured-listings' => './listing/featured.php',
