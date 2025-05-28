@@ -19,7 +19,7 @@ const ForgotPassword = () => {
       setIsSubmitted(true);
       alert(response.data.message || "Linku per rivendosjen e fjalekalimit u dergua ne email!");
     } catch (error) {
-      console.log("Password reset failed:", error);
+      console.log("Password resetj failed:", error);
       alert("Dergimi i emailit deshtoi. Ju lutem provoni perseri.");
     } finally {
       setIsLoading(false);

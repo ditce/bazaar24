@@ -22,15 +22,15 @@ if (!$listing) {
 }
 
 $response = [
-    'id' => $listing->id,
-    'title' => $listing->title,
-    'price' => $listing->price,
-    'image' => $listing->image_url,
-    'type' => $listing->category,
-    'description' => $listing->description,
-    'location' => $listing->location,
-    'features' => json_decode($listing->features, true),
-    'seller' => json_decode($listing->seller_info, true)
+    'id' => $listing->id ?? 0,
+    'title' => $listing->title ?? '',
+    'price' => $listing->price ?? 0,
+    'image' => $listing->image_url ?? '',
+    'type' => $listing->category ?? '',
+    'description' => $listing->description ?? '',
+    'location' => $listing->location ?? '',
+    'features' => json_decode($listing->features ?? '[]', true) ?: [],
+    'seller' => json_decode($listing->seller_info ?? '[]', true) ?: []
 ];
 
 echo json_encode($response);
