@@ -28,7 +28,6 @@ export default function FilterPanel({ category, onApplyFilters }) {
     'Berat': ['22 Tetori', '28 Nentori', '30 Vjetori', '1 Korriku', 'Mangalem', 'NSHG', 'Celepias', 'Ish Pjeshkorja', 'Uznove'],
     'Sarande': ['Delvine', 'Konispol', 'Ksamil', 'Xarre', 'Livadhja', 'Markat', 'Shales', 'Gjashte', 'Aliko', 'Memoraq', 'Cerkovice', 'Borsh', 'Piqeras', 'Lukove', 'Finiq', 'Vergo', 'Stjar', 'Qender Sarande'],
   };
-  a
   qytetet.forEach(qytet => {
     if (!lagjet[qytet]) {
       lagjet[qytet] = ['Qender', 'Lagje 1', 'Lagje 2', 'Periferi'];
