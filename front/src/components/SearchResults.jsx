@@ -82,7 +82,7 @@ export default function SearchResults() {
     if (filters.cmimiMin) {
       newResults = newResults.filter(item => {
         const priceString = String(item.price).replace(/[^0-9.,-]+/g, '').replace(',', '.');
-        const price = parseFloat(priceString);
+        const price = parseInt(priceString);
         return !isNaN(price) && price >= filters.cmimiMin;
       });
       filtersApplied = true;
@@ -91,7 +91,7 @@ export default function SearchResults() {
     if (filters.cmimiMax) {
       newResults = newResults.filter(item => {
         const priceString = String(item.price).replace(/[^0-9.,-]+/g, '').replace(',', '.');
-        const price = parseFloat(priceString);
+        const price = parseInt(priceString);
         return !isNaN(price) && price <= filters.cmimiMax;
       });
       filtersApplied = true;
@@ -101,7 +101,7 @@ export default function SearchResults() {
       if (filters.pagaMin) {
          newResults = newResults.filter(item => {
             const priceString = String(item.price).replace(/[^0-9.,-]+/g, '').replace(',', '.');
-            const price = parseFloat(priceString);
+            const price = parseInt(priceString);
             return !isNaN(price) && price >= filters.pagaMin;
         });
         filtersApplied = true;
@@ -110,7 +110,7 @@ export default function SearchResults() {
       if (filters.pagaMax) {
         newResults = newResults.filter(item => {
             const priceString = String(item.price).replace(/[^0-9.,-]+/g, '').replace(',', '.');
-            const price = parseFloat(priceString);
+            const price = parseInt(priceString);
             return !isNaN(price) && price <= filters.pagaMax;
         });
         filtersApplied = true;

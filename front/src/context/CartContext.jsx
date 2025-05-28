@@ -83,7 +83,7 @@ export const CartProvider = ({ children }) => {
       
       priceString = priceString.replace(',', '.');
       
-      price = parseFloat(priceString) || 0;
+      price = parseInt(priceString) || 0;
     }
     
     return total + (price * item.quantity);

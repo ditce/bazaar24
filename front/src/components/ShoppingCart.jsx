@@ -102,7 +102,7 @@ const ShoppingCart = () => {
       <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
         <div className="flex justify-between text-base font-medium text-gray-900">
           <p>Shuma totale</p>
-          <p>€{cartTotal.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
+          <p>€{cartTotal}</p>
         </div>
         <p className="mt-0.5 text-sm text-gray-500">Transporti dhe taksat llogariten ne hapin e pageses.</p>
         
