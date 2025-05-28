@@ -29,7 +29,7 @@ const AddToCartButton = ({ item, className = "" }) => {
         isAdded
           ? 'bg-green-500 hover:bg-green-600'
           : 'bg-indigo-600 hover:bg-indigo-700'
-      } text-white text-sm rounded-full p-2 transition-colors duration-300 ${className}`}
+      } text-white text-sm rounded-full p-2 transition-colors duration-300 ${className} flex justify-center items-center`}
       aria-label={isAdded ? 'Shtuar ne shporte' : 'Shto ne shporte'}
     >
       {isAdded ? (

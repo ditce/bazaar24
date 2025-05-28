@@ -35,6 +35,7 @@ $static_routes = [
     'featured-listings' => './listing/featured.php',
     'categories' => './listing/categories.php',
     'subcategories' => './listing/subcategories.php',
+    'create-listing' => './listing/add.php',
 ];
 
 if (isset($static_routes[$url])) {

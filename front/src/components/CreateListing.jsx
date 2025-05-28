@@ -215,23 +215,24 @@ const CreateListing = () => {
     }
     
     try {
-      const formData = new FormData();
-      for (const key in listingData) {
-        formData.append(key, listingData[key]);
+      const jsonData = { ...listingData };
+      
+      if (!jsonData.type) {
+        jsonData.type = category;
       }
-      if (!formData.has('type')) {
-        formData.append('type', category);
-      }
-      formData.append('publishedDate', new Date().toISOString());
-
+      
+      jsonData.publishedDate = new Date().toISOString();
+      
       if (listingData.image instanceof File) {
-        formData.append('imageFile', listingData.image, listingData.image.name);
+        const base64Image = await convertFileToBase64(listingData.image);
+        jsonData.imageBase64 = base64Image;
+        jsonData.imageName = listingData.image.name;
+        jsonData.imageType = listingData.image.type;
+        
+        delete jsonData.image;
       }
-      const response = await API.post('/listing', formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data' 
-          }
-      });
+      
+      const response = await API.post('/listing', jsonData);
       
       console.log('Listimi u krijua me sukses!', response.data);
       alert('Listimi u krijua me sukses!'); 
@@ -241,10 +242,19 @@ const CreateListing = () => {
       
     } catch (err) {
       console.error('Gabim ne krijimin e listimit:', err.response?.data || err.message || err);
-      setError(`Ndodhi nje gabim gjate krijimit te listimit: ${err.response?.data?.message || err.message || 'Ju lutem provoni perseri.'}`);
+      setError(`Ndodhi nje gabim gjate krijimit te listimit: ${err.response?.data?.error || err.message || 'Ju lutem provoni perseri.'}`);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const convertFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
   };
 
   const renderForm = () => {

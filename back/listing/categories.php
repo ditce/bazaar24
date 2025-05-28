@@ -18,7 +18,6 @@ try {
     $stmt->execute();
     $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // If subcategories are requested, include them
     if (isset($_GET['with_subcategories']) && $_GET['with_subcategories']) {
         foreach ($categories as &$category) {
             $stmt = $pdo->prepare('SELECT id, name FROM subcategories WHERE category_id = ? ORDER BY name');

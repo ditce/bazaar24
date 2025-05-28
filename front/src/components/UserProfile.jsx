@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from './Navbar';
 import Footer from './Footer';
-import API from '../utilities/API'; 
+import API from '../utilities/API';
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -17,11 +17,12 @@ const UserProfile = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await API.get("/me"); 
+        const response = await API.get("/me");
         if (response.data) {
           setUserData(response.data);
-        } else {setError("Nuk u gjeten te dhena per perdoruesin.");
-          }
+        } else {
+          setError("Nuk u gjeten te dhena per perdoruesin.");
+        }
       } catch (err) {
         console.error("Failed to fetch user data:", err);
         setError("Gabim ne ngarkimin e te dhenave te profilit. Provoni te kyçeni perseri.");
@@ -38,30 +39,30 @@ const UserProfile = () => {
     { id: 201, title: 'BMW 3 Series 2019', price: '€32,000', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=150&h=100&fit=crop', type: 'Makina', status: 'Aktive', views: 245, date: '2025-05-20' },
     { id: 301, title: 'Apartament 2+1 ne qender', price: '€120,000', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=150&h=100&fit=crop', type: 'Shtepi', status: 'Aktive', views: 189, date: '2025-05-18' },
   ];
-  const [userListings, setUserListings] = useState(userListings_static); 
+  const [userListings, setUserListings] = useState(userListings_static);
   const recentActivity_static = [
     { action: 'Listim i ri publikuar', item: 'BMW 3 Series 2019', date: '2025-05-20', type: 'listing' },
     { action: 'Mesazh i ri', item: 'Per Apartament 2+1', date: '2025-05-19', type: 'message' },
-    
+
   ];
-  const [recentActivity, setRecentActivity] = useState(recentActivity_static); 
+  const [recentActivity, setRecentActivity] = useState(recentActivity_static);
   const handleLogout = () => {
-    localStorage.removeItem('userToken'); 
-    setUserData(null); 
+    localStorage.removeItem('userToken');
+    setUserData(null);
     navigate('/');
   };
-  
+
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     try {
-        setLoading(true);
-        setIsEditing(false);
-        alert("Profili u perditesua me sukses!"); 
+      setLoading(true);
+      setIsEditing(false);
+      alert("Profili u perditesua me sukses!");
     } catch (err) {
-        console.error("Failed to update profile:", err);
-        alert("Gabim ne perditesimin e profilit.");
+      console.error("Failed to update profile:", err);
+      alert("Gabim ne perditesimin e profilit.");
     } finally {
-        setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -72,7 +73,7 @@ const UserProfile = () => {
 
 
   const getStatusColor = (status) => {
-    switch(status) {
+    switch (status) {
       case 'Aktive': return 'bg-green-100 text-green-800';
       case 'Perfunduar': return 'bg-gray-100 text-gray-800';
       case 'Ne pritje': return 'bg-yellow-100 text-yellow-800';
@@ -81,24 +82,23 @@ const UserProfile = () => {
   };
 
   const getActivityIcon = (type) => {
-    switch(type) {
+    switch (type) {
       case 'listing':
-        return <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2L3 7v11h4v-6h6v6h4V7l-7-5z"/></svg>;
+        return <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2L3 7v11h4v-6h6v6h4V7l-7-5z" /></svg>;
       case 'message':
-        return <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path d="M2 5l8 4 8-4V5l-8 4L2 5z"/></svg>;
+        return <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path d="M2 5l8 4 8-4V5l-8 4L2 5z" /></svg>;
       case 'sale':
-        return <svg className="w-4 h-4 text-purple-500" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4h12v12H4V4zm8 8V8l-4 2v4l4-2z"/></svg>;
+        return <svg className="w-4 h-4 text-purple-500" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4h12v12H4V4zm8 8V8l-4 2v4l4-2z" /></svg>;
       case 'review':
-        return <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1l2.5 5h5.5l-4.5 3.5 1.5 5.5L10 12l-4.5 3.5L7 10 2.5 6H8L10 1z"/></svg>;
+        return <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1l2.5 5h5.5l-4.5 3.5 1.5 5.5L10 12l-4.5 3.5L7 10 2.5 6H8L10 1z" /></svg>;
       default:
-        return <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/></svg>;
+        return <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /></svg>;
     }
   };
 
   const renderOverview = () => (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Stats Cards - Te dhenat duhet te vijne nga userData */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="flex items-center">
             <div className="p-3 rounded-full bg-blue-100">
@@ -113,7 +113,7 @@ const UserProfile = () => {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="flex items-center">
             <div className="p-3 rounded-full bg-green-100">
-             <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Aktive</p>
@@ -124,7 +124,7 @@ const UserProfile = () => {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="flex items-center">
             <div className="p-3 rounded-full bg-purple-100">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Shitur</p>
@@ -135,7 +135,7 @@ const UserProfile = () => {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="flex items-center">
             <div className="p-3 rounded-full bg-yellow-100">
-                <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.846 5.671a1 1 0 00.95.69h5.969c.969 0 1.371 1.24.588 1.81l-4.828 3.525a1 1 0 00-.364 1.118l1.846 5.671c.3.921-.755 1.688-1.54 1.118l-4.828-3.525a1 1 0 00-1.176 0l-4.828 3.525c-.784.57-1.838-.197-1.539-1.118l1.846-5.671a1 1 0 00-.364-1.118L2.28 11.1c-.783-.57-.38-1.81.588-1.81h5.969a1 1 0 00.95-.69l1.846-5.671z" /></svg>
+              <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.846 5.671a1 1 0 00.95.69h5.969c.969 0 1.371 1.24.588 1.81l-4.828 3.525a1 1 0 00-.364 1.118l1.846 5.671c.3.921-.755 1.688-1.54 1.118l-4.828-3.525a1 1 0 00-1.176 0l-4.828 3.525c-.784.57-1.838-.197-1.539-1.118l1.846-5.671a1 1 0 00-.364-1.118L2.28 11.1c-.783-.57-.38-1.81.588-1.81h5.969a1 1 0 00.95-.69l1.846-5.671z" /></svg>
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Vleresimi</p>
@@ -177,7 +177,7 @@ const UserProfile = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-gray-900">Listimet e mia</h3>
-        <Link 
+        <Link
           to="/create-listing"
           className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
         >
@@ -191,62 +191,62 @@ const UserProfile = () => {
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               {/* thead, tbody ... */}
-               <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Listimi</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategoria</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cmimi</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shikime</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Veprime</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {userListings.map((listing) => (
-                <tr key={listing.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <img className="h-12 w-20 object-cover rounded-lg flex-shrink-0" src={listing.image || '/images/placeholder.jpg'} alt={listing.title} 
-                           onError={(e) => { e.target.onerror = null; e.target.src = '/images/placeholder.jpg'; }}/>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900 line-clamp-2">{listing.title}</div>
-                        <div className="text-sm text-gray-500">{new Date(listing.date).toLocaleDateString('sq-AL')}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-${listing.type === 'Makina' ? 'blue' : listing.type === 'Shtepi' ? 'green' : listing.type === 'Pune' ? 'pink' : 'purple'}-100 text-${listing.type === 'Makina' ? 'blue' : listing.type === 'Shtepi' ? 'green' : listing.type === 'Pune' ? 'pink' : 'purple'}-800`}>
-                      {listing.type}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {listing.price}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(listing.status)}`}>
-                      {listing.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {listing.views}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <Link to={`/listing/${listing.id}`} className="text-indigo-600 hover:text-indigo-900 mr-3">Shiko</Link>
-                    <button onClick={() => navigate(`/edit-listing/${listing.id}`)} className="text-green-600 hover:text-green-900 mr-3">Modifiko</button>
-                    <button className="text-red-600 hover:text-red-900">Fshij</button>
-                  </td>
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Listimi</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategoria</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cmimi</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shikime</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Veprime</th>
                 </tr>
-              ))}
-            </tbody>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {userListings.map((listing) => (
+                  <tr key={listing.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <img className="h-12 w-20 object-cover rounded-lg flex-shrink-0" src={listing.image || '/images/placeholder.jpg'} alt={listing.title}
+                          onError={(e) => { e.target.onerror = null; e.target.src = '/images/placeholder.jpg'; }} />
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900 line-clamp-2">{listing.title}</div>
+                          <div className="text-sm text-gray-500">{new Date(listing.date).toLocaleDateString('sq-AL')}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-${listing.type === 'Makina' ? 'blue' : listing.type === 'Shtepi' ? 'green' : listing.type === 'Pune' ? 'pink' : 'purple'}-100 text-${listing.type === 'Makina' ? 'blue' : listing.type === 'Shtepi' ? 'green' : listing.type === 'Pune' ? 'pink' : 'purple'}-800`}>
+                        {listing.type}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {listing.price}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(listing.status)}`}>
+                        {listing.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {listing.views}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <Link to={`/listing/${listing.id}`} className="text-indigo-600 hover:text-indigo-900 mr-3">Shiko</Link>
+                      <button onClick={() => navigate(`/edit-listing/${listing.id}`)} className="text-green-600 hover:text-green-900 mr-3">Modifiko</button>
+                      <button className="text-red-600 hover:text-red-900">Fshij</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         </div>
       ) : (
         <div className="bg-white p-6 rounded-lg shadow-md text-center">
-            <p className="text-gray-500">Nuk keni asnje listim aktiv.</p>
-            <Link to="/create-listing" className="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                Shto listimin e pare
-            </Link>
+          <p className="text-gray-500">Nuk keni asnje listim aktiv.</p>
+          <Link to="/create-listing" className="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
+            Shto listimin e pare
+          </Link>
         </div>
       )}
     </div>
@@ -260,11 +260,11 @@ const UserProfile = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label htmlFor="full_name" className="block text-sm font-medium text-gray-700">Emri i plote</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 id="full_name"
                 name="full_name"
-                value={userData?.full_name || ''} 
+                value={userData?.username || ''}
                 onChange={handleChange}
                 disabled={!isEditing}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-gray-100"
@@ -272,23 +272,23 @@ const UserProfile = () => {
             </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 id="email"
                 name="email"
-                value={userData?.email || ''} 
+                value={userData?.email || ''}
                 onChange={handleChange}
-                disabled 
+                disabled
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-gray-100"
               />
             </div>
             <div>
               <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">Telefoni</label>
-              <input 
+              <input
                 type="tel"
                 id="phone_number"
-                name="phone_number" 
-                value={userData?.phone_number || ''} 
+                name="phone_number"
+                value={userData?.phone_number || ''}
                 onChange={handleChange}
                 disabled={!isEditing}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-gray-100"
@@ -296,11 +296,11 @@ const UserProfile = () => {
             </div>
             <div>
               <label htmlFor="location" className="block text-sm font-medium text-gray-700">Vendndodhja</label>
-              <input 
+              <input
                 type="text"
                 id="location"
-                name="location" 
-                value={userData?.location || ''} 
+                name="location"
+                value={userData?.location || ''}
                 onChange={handleChange}
                 disabled={!isEditing}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-gray-100"
@@ -309,11 +309,11 @@ const UserProfile = () => {
           </div>
           <div>
             <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Biografia</label>
-            <textarea 
+            <textarea
               rows={3}
               id="bio"
-              name="bio" 
-              value={userData?.bio || ''} 
+              name="bio"
+              value={userData?.bio || ''}
               onChange={handleChange}
               disabled={!isEditing}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-gray-100"
@@ -322,16 +322,16 @@ const UserProfile = () => {
           <div className="flex justify-end space-x-3">
             {isEditing ? (
               <>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => {
-                      setIsEditing(false);
+                    setIsEditing(false);
                   }}
                   className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
                   Anulo
                 </button>
-                <button 
+                <button
                   type="submit"
                   className="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm font-medium hover:bg-indigo-700"
                 >
@@ -339,8 +339,8 @@ const UserProfile = () => {
                 </button>
               </>
             ) : (
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={() => setIsEditing(true)}
                 className="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm font-medium hover:bg-indigo-700"
               >
@@ -364,22 +364,22 @@ const UserProfile = () => {
       </div>
     );
   }
-  
+
   if (error || !userData) {
-     return (
+    return (
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <div className="container mx-auto px-4 py-8">
-            <div className="text-center bg-white p-8 rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold text-red-600 mb-4">Gabim Profili</h2>
-                <p className="text-gray-600 mb-8">{error || "Nuk mund te ngarkoheshin te dhenat e profilit."}</p>
-                <Link 
-                to="/login" 
-                className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300"
-                >
-                Shko tek Kycja
-                </Link>
-            </div>
+          <div className="text-center bg-white p-8 rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold text-red-600 mb-4">Gabim Profili</h2>
+            <p className="text-gray-600 mb-8">{error || "Nuk mund te ngarkoheshin te dhenat e profilit."}</p>
+            <Link
+              to="/login"
+              className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300"
+            >
+              Shko tek Kycja
+            </Link>
+          </div>
         </div>
         <Footer />
       </div>
@@ -390,14 +390,14 @@ const UserProfile = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
             <div className="relative">
-              <img 
-                src={userData?.profile_image || 'https://via.placeholder.com/150/E0E0E0/B0B0B0?text=User'} 
-                alt="Profile" 
+              <img
+                src={userData?.profile_image || `https://avatar.iran.liara.run/public/boy?username=${userData?.full_name}`}
+                alt="Profile"
                 className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
                 onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/150/E0E0E0/B0B0B0?text=User'; }}
               />
@@ -412,14 +412,14 @@ const UserProfile = () => {
 
             <div className="flex-1 text-center md:text-left">
               <div className="flex items-center justify-center md:justify-start space-x-2 mb-2">
-                <h1 className="text-3xl font-bold text-gray-900">{userData?.full_name || "Emri i Perdoruesit"}</h1>
+                <h1 className="text-3xl font-bold text-gray-900">{userData?.username || "Emri i Perdoruesit"}</h1>
                 {userData?.membership_type && (
-                  <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${userData.membership_type === 'Premium' ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800'}`}>{userData.membership_type}</span>
+                  <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${userData.membership_type === 'Premium' ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800'}`}>{userData.membership_type || ''}</span>
                 )}
               </div>
               <p className="text-gray-600 mb-2">{userData?.location || "Vendndodhja e panjohur"}</p>
               <p className="text-gray-700 max-w-md">{userData?.bio || "Nuk ka bio."}</p>
-              
+
               <div className="mt-4 flex items-center justify-center md:justify-start space-x-3 text-sm text-gray-500">
                 {userData?.join_date && <span>Anetaresuar: {new Date(userData.join_date).toLocaleDateString('sq-AL')}</span>}
                 {userData?.join_date && userData?.total_reviews !== undefined && <span className="hidden sm:inline">•</span>}
@@ -430,13 +430,13 @@ const UserProfile = () => {
             </div>
 
             <div className="flex space-x-3 mt-4 md:mt-0">
-              <button 
+              <button
                 onClick={handleLogout}
                 className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 Dil
               </button>
-              <Link 
+              <Link
                 to="/create-listing"
                 className="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm font-medium hover:bg-indigo-700"
               >
@@ -457,11 +457,10 @@ const UserProfile = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 py-4 px-1 sm:px-2 md:px-3 border-b-2 font-medium text-sm whitespace-nowrap ${
-                    activeTab === tab.id
+                  className={`flex items-center space-x-2 py-4 px-1 sm:px-2 md:px-3 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === tab.id
                       ? 'border-indigo-500 text-indigo-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                    }`}
                 >
                   <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={tab.icon} />

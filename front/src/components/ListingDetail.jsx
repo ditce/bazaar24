@@ -269,9 +269,9 @@ const ListingDetails = () => {
             <div className="bg-white rounded-lg shadow-md p-6 mb-6 sticky top-4">
               <h3 className="text-xl font-semibold mb-4 text-gray-800">Kontakt</h3>
 
-              {listing.type === 'Pune' && listing.details?.contactEmail && (
+              {listing.type === 'Pune' && listing.seller && (
                 <div>
-                  <p className="text-gray-600 mb-4">Kontaktoni pronarin:</p>
+                  <p className="text-gray-600 mb-4">Kontaktoni kompanin:</p>
                   <a
                     href={`mailto:${listing.seller.email}`}
                     className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 block text-center mb-3"
@@ -279,26 +279,19 @@ const ListingDetails = () => {
                     Dergo mesazh
                   </a>
                   <div className="text-sm text-gray-500 text-center space-y-1">
-                    <p>{listing.seller.name}</p>
+                    <p>{listing.sellerInfo.name}</p>
                     <p>Email: {listing.seller.email}</p>
                     <p>Tel: {listing.seller.phone}</p>
                   </div>
                 </div>
               )}
 
-              {(listing.type === 'Makina' || listing.type === 'Shtepi' || listing.type === 'Qira') && listing.details?.contactPhone && (
+              {(listing.type === 'Makina' || listing.type === 'Shtepi' || listing.type === 'Qira') && listing.seller?.phone && (
                 <div>
                   <p className="text-gray-600 mb-4">Kontakto shitesin:</p>
 
-                  <div className="mb-4">
-                    <AddToCartButton
-                      item={listing}
-                      className="w-full h-12 rounded-lg text-base font-medium"
-                    />
-                  </div>
-
                   <a
-                    href={`tel:${listing.details.contactPhone}`}
+                    href={`tel:${listing.seller.phone}`}
                     className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition duration-300 block text-center mb-3"
                   >
                     Telefono
@@ -309,9 +302,16 @@ const ListingDetails = () => {
                   >
                     Dergo mesazh
                   </button>
+                  <div className="mb-4">
+                    <AddToCartButton
+                      item={listing}
+                      className="w-full h-12 rounded-lg text-base font-medium"
+                    />
+                  </div>
                   <p className="text-sm text-gray-500 text-center">
-                    Tel: {listing.details.contactPhone}
+                    Tel: {listing.seller.phone}
                   </p>
+
                 </div>
               )}
             </div>

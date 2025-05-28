@@ -13,6 +13,7 @@ $response = array_map(function($listing) {
         'id' => $listing->id,
         'title' => $listing->title,
         'price' => $listing->price,
+        'location' => $listing->location,
         'image' => $listing->image_url,
         'type' => $listing->category
     ];

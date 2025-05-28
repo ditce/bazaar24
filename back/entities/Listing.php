@@ -104,7 +104,7 @@ class Listing extends Model {
         }
 
         try {
-            $currentListing = self::find($listingId);
+            $currentListing = self::findById($listingId);
             
             if (!$currentListing) {
                 return [];
@@ -113,7 +113,6 @@ class Listing extends Model {
             $category = $currentListing->category ?? null;
             $subcategoryId = $currentListing->subcategory_id ?? null;
             
-            // Query to find related listings based on category and/or subcategory
             $sql = 'SELECT * FROM listings WHERE id != :id';
             $params = ['id' => $listingId];
             
@@ -131,7 +130,6 @@ class Listing extends Model {
             
             $stmt = $pdo->prepare($sql);
             
-            // Need to bind limit parameter separately for PDO::PARAM_INT
             foreach ($params as $key => $value) {
                 $stmt->bindValue(":$key", $value);
             }
