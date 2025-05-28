@@ -3,11 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import AddToCartButton from './AddToCartButton';
-import API from '../utilities/API'; // Shtuar importi
-
-// Të dhënat demo do te hiqen
-// const demoListingDetails_static = { ... };
-
+import API from '../utilities/API'; 
 const ListingDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -25,10 +21,6 @@ const ListingDetails = () => {
       setLoading(true);
       setError(null);
       try {
-        // Supozojme qe endpoint-i pranon ID si query parameter, p.sh., /listing?id=101
-        // ose nese backend eshte konfiguruar per path params: /listing/101
-        // Duke u bazuar te lista jote e rrugeve `listing => ./listing/detail.php`
-        // ka me shume gjasa te jete query parameter.
         const response = await API.get(`/listing?id=${id}`);
         if (response.data) {
           setListing(response.data);
@@ -99,11 +91,6 @@ const ListingDetails = () => {
       </div>
     );
   }
-  
-  // Supozojme qe API kthen nje objekt 'listing' me nje nen-objekt 'details'
-  // p.sh. listing.details.company, listing.details.brand etj.
-  // Nese struktura eshte ndryshe, duhet pershtatur ketu poshte.
-
   const renderJobDetails = () => (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h3 className="text-xl font-semibold mb-4 text-gray-800">Detaje te punes</h3>
@@ -165,8 +152,7 @@ const ListingDetails = () => {
   );
 
   const renderRentalDetails = () => {
-    // Supozojme se dallimi behet nese ka 'brand' (per makine) apo 'type' (per prone)
-    if (listing.details?.brand) { // Car rental
+    if (listing.details?.brand) { 
       return (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Detaje te qirase (Makine)</h3>
@@ -186,7 +172,7 @@ const ListingDetails = () => {
           </div>
         </div>
       );
-    } else { // Property rental
+    } else { 
       return (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Detaje te qirase (Prona)</h3>
@@ -317,7 +303,7 @@ const ListingDetails = () => {
                   </a>
                   <button 
                     className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 mb-3"
-                    onClick={() => alert('Funksionaliteti i dergimit te mesazhit do te implementohet se shpejti.')} // Placeholder
+                    onClick={() => alert('Funksionaliteti i dergimit te mesazhit do te implementohet se shpejti.')} 
                   >
                     Dergo mesazh
                   </button>

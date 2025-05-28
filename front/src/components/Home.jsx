@@ -5,21 +5,6 @@ import Footer from './Footer';
 import ListingCard from './ListingCard';
 import API from "../utilities/API";
 
-// Kategorite dhe listimet kryesore do te merren nga API
-// const categories_static = [
-//   { name: 'Pune', color: 'from-pink-200 to-pink-400' },
-//   { name: 'Makina', color: 'from-blue-200 to-blue-400' },
-//   { name: 'Shtepi', color: 'from-green-200 to-green-400' },
-//   { name: 'Qira', color: 'from-purple-200 to-purple-400' },
-// ];
-
-// const featured_static = [
-//   { id: 201, title: 'BMW 3 Series 2019', price: '€32,000', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop', type: 'Makina', location: 'Tirane' },
-//   { id: 301, title: 'Apartament 2+1 qendra', price: '€120,000', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop', type: 'Shtepi', location: 'Tirane' },
-//   { id: 110, title: 'Software Engineer', price: '€95,000/vit', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop', type: 'Pune', location: 'Tirane' },
-//   // ... te tjerat
-// ];
-
 export default function Home() {
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState([]);
@@ -34,16 +19,11 @@ export default function Home() {
     const fetchCategories = async () => {
       try {
         setLoadingCategories(true);
-        const response = await API.get("/categories"); // Endpoint nga lista
-        // Supozojme qe API kthen nje array te objekteve te kategorive
-        // p.sh. [{ id: 1, name: 'Pune', color_from: 'pink-200', color_to: 'pink-400'}, ...]
-        // Nese API kthen vetem emra, duhet te pershtasim ngjyrat ose t'i heqim.
-        // Per thjeshtesi, po supozoj qe kthen edhe ngjyrat ose nje identifikues per to.
-        // Nese API kthen vetem [{name: 'Pune'}, {name: 'Makina'}], duhet nje mapim per ngjyrat ketu.
+        const response = await API.get("/categories"); 
         const defaultColors = ['from-pink-200 to-pink-400', 'from-blue-200 to-blue-400', 'from-green-200 to-green-400', 'from-purple-200 to-purple-400'];
         setCategories(response.data.map((cat, index) => ({
-            ...cat, // supozojme cat permban {name: 'Pune'}
-            color: cat.color || defaultColors[index % defaultColors.length] // Nese API nuk kthen ngjyre, perdorim nje default
+            ...cat,
+            color: cat.color || defaultColors[index % defaultColors.length] 
         })));
       } catch (error) {
         console.error("Failed to fetch categories:", error);
@@ -56,7 +36,7 @@ export default function Home() {
     const fetchFeaturedListings = async () => {
       try {
         setLoadingFeatured(true);
-        const response = await API.get("/featured-listings"); // Endpoint nga lista
+        const response = await API.get("/featured-listings"); 
         setFeatured(response.data);
       } catch (error) {
         console.error("Failed to fetch featured listings:", error);
@@ -110,7 +90,7 @@ export default function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {categories.map(cat => (
               <div
-                key={cat.name} // Supozojme qe 'name' eshte unik, ose 'id' nese API kthen ID
+                key={cat.name} 
                 onClick={() => navigate(`/search?category=${encodeURIComponent(cat.name)}`)}
                 className="cursor-pointer p-6 rounded-2xl text-center bg-white shadow-md hover:shadow-xl transition relative overflow-hidden"
               >

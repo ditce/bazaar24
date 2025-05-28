@@ -17,8 +17,6 @@ export default function ListingCard({ listing }) {
         return 'bg-gray-100 text-gray-800';
     }
   };
-
-  // Funksion per te percaktuar ikonen bazuar ne tipin
   const getTypeIcon = (type) => {
     switch(type) {
       case 'Pune':
@@ -49,11 +47,7 @@ export default function ListingCard({ listing }) {
         return null;
     }
   };
-
-  // Fallback image nese foto nuk ngarkohet
   const fallbackImage = '/images/placeholder.jpg';
-
-  // Funksion per te trajtuar gabimet e imazhit
   const handleImageError = (e) => {
     e.target.onerror = null;
     e.target.src = fallbackImage;

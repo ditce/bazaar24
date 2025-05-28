@@ -11,35 +11,25 @@ const CreateListing = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const [error, setError] = useState('');
-
-  // Lista e qyteteve te Shqiperise - Mbetet e koduar pasi nuk ka endpoint API te specifikuar
-  // Nese ka nje endpoint API per qytetet, duhet te merret nga aty.
-  // P.sh. API.get('/locations/cities')
   const qytetet = [
     'Tirane', 'Durres', 'Vlore', 'Shkoder', 'Elbasan', 'Fier', 'Korce', 'Berat', 
     'Lushnje', 'Pogradec', 'Kavaje', 'Lezhe', 'Gjirokaster', 'Sarande', 'Kukes', 
     'Peshkopi', 'Kruje', 'Kucove', 'Permet', 'Ballsh', 'Patos', 'Librazhd', 
     'Tepelene', 'Gramsh', 'Burrel', 'Himare', 'Delvine', 'Lac', 'Koplik', 'Fushe-Kruje'
   ];
-
-  // Kategorite dhe opsionet - Struktura e formularit mbetet e definuar ne frontend.
-  // Opsionet specifike brenda fushave (p.sh. lista e markave te makinave)
-  // mund te merren nga API nese ka endpoint-e si /subcategories?category=Makina&field=brand
-  // ose nese endpoint-i /categories kthen strukture te detajuar.
-  // Per momentin, keto opsione mbeten te koduara.
   const categories = {
     'Pune': {
       title: 'Shto nje pozicion pune',
       fields: [
         { name: 'title', label: 'Titulli i pozicionit', type: 'text', required: true },
         { name: 'company', label: 'Emri i kompanise', type: 'text', required: true },
-        { name: 'location', label: 'Vendndodhja', type: 'select', options: qytetet, required: true }, // Perdor qytetet e koduara
+        { name: 'location', label: 'Vendndodhja', type: 'select', options: qytetet, required: true }, 
         { name: 'salary', label: 'Paga (€)', type: 'number', required: true },
         { 
           name: 'position', 
           label: 'Pozicioni', 
           type: 'select', 
-          options: [ // Opsione te koduara
+          options: [
             'Ekonomist', 'IT', 'Programues', 'Kuzhine', 'Ndertim', 'Marketing', 
             'Sanitare', 'Kamarier-Banakier', 'Sherbim Klienti', 'Call Center', 
             'Sigurim', 'Hoteleri', 'Finance', 'Shites/e', 'Ligj', 'Menaxhim Biznesi', 
@@ -48,7 +38,6 @@ const CreateListing = () => {
           ],
           required: true
         },
-        // ... fushat e tjera per Pune
          { 
           name: 'schedule', 
           label: 'Orari', 
@@ -78,7 +67,7 @@ const CreateListing = () => {
           name: 'brand', 
           label: 'Marka', 
           type: 'select', 
-          options: [ // Opsione te koduara
+          options: [ 
             'Mercedes Benz', 'BMW', 'Audi', 'Toyota', 'Opel', 'Volkswagen', 'Ford', 
             'Honda', 'Fiat', 'Jaguar', 'Mazda', 'Subaru', 'Alfa Romeo', 'Aston Martin', 
             'Bentley', 'Cadillac', 'Hyundai', 'Kia', 'Porsche', 'Tesla', 'Jeep', 
@@ -87,7 +76,6 @@ const CreateListing = () => {
           ],
           required: true
         },
-        // ... fushat e tjera per Makina
         { name: 'model', label: 'Modeli', type: 'text', required: true },
         { name: 'year', label: 'Viti i prodhimit', type: 'number', min: 1980, max: new Date().getFullYear() + 1, required: true },
         { name: 'kilometers', label: 'Kilometrazhi', type: 'number', required: true },
@@ -105,7 +93,7 @@ const CreateListing = () => {
           options: ['Automatik', 'Manual'], 
           required: true 
         },
-        { name: 'engineSize', label: 'Motorri (cc)', type: 'number', required: false }, // Zakonisht ne cc ose L
+        { name: 'engineSize', label: 'Motorri (cc)', type: 'number', required: false }, 
         { name: 'power', label: 'Fuqia (HP)', type: 'number', required: false },
         { name: 'color', label: 'Ngjyra', type: 'text', required: true },
         { name: 'description', label: 'Pershkrimi', type: 'textarea', required: true },
@@ -117,7 +105,6 @@ const CreateListing = () => {
       fields: [
         { name: 'title', label: 'Titulli i listimit', type: 'text', required: true },
         { name: 'location', label: 'Qyteti', type: 'select', options: qytetet, required: true },
-        // Zona/Lagjja mund te jete input text ose select i varur nga qyteti (mbetet i koduar)
         { name: 'zone', label: 'Zona/Lagjja', type: 'text', required: true },
         { name: 'price', label: 'Cmimi (€)', type: 'number', required: true },
         { 
@@ -135,8 +122,7 @@ const CreateListing = () => {
           options: ['1+1', '2+1', '2+1+2 (2 banjo)', '3+1', '3+1+2 (2 banjo)', '3+2+2 (2 banjo)', '4+1', '4+1+2 (2 banjo)', '4+2+2 (2 banjo)', 'Garsoniere', 'Tjeter'], 
           required: true 
         },
-        // ... fushat e tjera per Shtepi
-        { name: 'floor', label: 'Kati', type: 'text', required: false }, // Mund te jete numer ose tekst (p.sh. Perdhe)
+        { name: 'floor', label: 'Kati', type: 'text', required: false },  
         { 
           name: 'parking', 
           label: 'Parking', 
@@ -161,7 +147,7 @@ const CreateListing = () => {
       fields: [
         { name: 'title', label: 'Titulli i listimit', type: 'text', required: true },
         { name: 'location', label: 'Vendndodhja', type: 'select', options: qytetet, required: true },
-        { name: 'price', label: 'Cmimi (€/muaj, dite, etj.)', type: 'text', required: true }, // Cmimi mund te jete tekst per te specifikuar periudhen
+        { name: 'price', label: 'Cmimi (€/muaj, dite, etj.)', type: 'text', required: true }, 
         { 
           name: 'rentalType', 
           label: 'Lloji i qirase', 
@@ -169,7 +155,6 @@ const CreateListing = () => {
           options: ['Shtepi/Apartament', 'Makine', 'Post Parkimi', 'Dyqan/Zyre', 'Lokal', 'Truall', 'Tjeter'], 
           required: true 
         },
-        // ... fushat e tjera per Qira
         { name: 'availableFrom', label: 'E disponueshme nga', type: 'date', required: false },
         { name: 'duration', label: 'Kohezgjatja minimale e qirase', type: 'text', placeholder: 'P.sh. 1 vit, 3 muaj, 1 dite', required: false },
         { name: 'deposit', label: 'Depozita (€)', type: 'number', required: false },
@@ -177,16 +162,13 @@ const CreateListing = () => {
         { name: 'contactPhone', label: 'Telefoni i kontaktit', type: 'tel', required: true }
       ]
     }
-    // Mund te shtohen kategori te tjera ketu
   };
-  
-  // Lista e kategorive kryesore per zgjedhje fillestare
   const mainCategories = Object.keys(categories);
 
 
   useEffect(() => {
     if (category) {
-      setListingData({ type: category }); // Pastrojme te dhenat e formularit kur ndryshon kategoria, por mbajme tipin
+      setListingData({ type: category }); 
       setPreviewImage(null);
     }
   }, [category]);
@@ -197,13 +179,12 @@ const CreateListing = () => {
     if (type === 'file') {
       if (files && files[0]) {
         const file = files[0];
-        // TODO: Add file size and type validation if needed
         const reader = new FileReader();
         reader.onloadend = () => {
           setPreviewImage(reader.result);
         };
         reader.readAsDataURL(file);
-        setListingData(prev => ({ ...prev, image: file })); // Ruajme file object per FormData
+        setListingData(prev => ({ ...prev, image: file })); 
       }
     } else if (type === 'checkbox') {
         setListingData(prev => ({ ...prev, [name]: checked }));
@@ -217,17 +198,14 @@ const CreateListing = () => {
     setIsSubmitting(true);
     setError('');
     
-    // Validimi bazik per fushat e kerkuara
     const currentCategoryFields = categories[category]?.fields || [];
     for (const field of currentCategoryFields) {
         if (field.required && !listingData[field.name]) {
-            // Per fushen e imazhit
             if (field.name === 'image' && !previewImage) {
                  setError(`Fusha "${field.label}" eshte e detyrueshme.`);
                  setIsSubmitting(false);
                  return;
             }
-            // Per fushat e tjera
             if (field.name !== 'image') {
                 setError(`Fusha "${field.label}" eshte e detyrueshme.`);
                 setIsSubmitting(false);
@@ -238,39 +216,27 @@ const CreateListing = () => {
     
     try {
       const formData = new FormData();
-      // Shtojme te dhenat e listimit ne FormData
       for (const key in listingData) {
         formData.append(key, listingData[key]);
       }
-      // Shtojme kategorine, nese nuk eshte vendosur tashme ne listingData
       if (!formData.has('type')) {
         formData.append('type', category);
       }
       formData.append('publishedDate', new Date().toISOString());
 
-      // Nese imazhi eshte ne listingData.image (si file object)
       if (listingData.image instanceof File) {
         formData.append('imageFile', listingData.image, listingData.image.name);
       }
-      
-      // API call per te krijuar listimin
-      // Sipas kerkeses tende, endpoint-i duhet te jete nga lista e dhene.
-      // '/listings' nuk eshte ne liste. Do perdor '/listing'.
-      // KY ESHTE NJE SUPOZIM I RRENDESISHEM QE '/listing' TRAJTON POST.
-      // Sigurohu qe backend-i e mbeshtet kete.
       const response = await API.post('/listing', formData, {
           headers: {
-              'Content-Type': 'multipart/form-data' // E rendesishme per ngarkim fajllash
+              'Content-Type': 'multipart/form-data' 
           }
       });
       
       console.log('Listimi u krijua me sukses!', response.data);
-      alert('Listimi u krijua me sukses!'); // Feedback per userin
-      
-      // Ridrejtojme tek profili ose faqja e listimit te ri pas krijimit te suksesshem
-      // navigate(`/listing/${response.data.id}`); // Nese API kthen ID e listimit te ri
+      alert('Listimi u krijua me sukses!'); 
       setTimeout(() => {
-        navigate('/profile'); // Ose kudo qe deshiron
+        navigate('/profile'); 
       }, 1500);
       
     } catch (err) {
@@ -309,11 +275,11 @@ const CreateListing = () => {
             <div className="flex-1">
               <input 
                 type="file" 
-                name="image" // name="imageFile" nese backend e pret keshtu
+                name="image"
                 accept="image/*" 
                 onChange={handleChange}
                 className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-                required // E bere e detyrueshme
+                required 
               />
               <p className="mt-1 text-xs text-gray-500">
                 JPG, PNG, GIF, WEBP. Maksimumi 5MB.
@@ -416,7 +382,7 @@ const CreateListing = () => {
           ) : (
             <div className="mb-6">
               <button
-                onClick={() => { setCategory(''); setError(''); }} // Pastrojme errorin kur kthehemi
+                onClick={() => { setCategory(''); setError(''); }} 
                 className="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors font-medium"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">

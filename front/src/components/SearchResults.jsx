@@ -4,11 +4,7 @@ import FilterPanel from './FilterPanel';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ListingCard from './ListingCard';
-import API from "../utilities/API"; // Shtuar importi i API
-
-// demoListings do te hiqet, te dhenat do te merren nga API
-// const demoListings_static = { ... };
-
+import API from "../utilities/API"; 
 export default function SearchResults() {
   const [searchParams] = useSearchParams();
   const categoryParam = searchParams.get('category');
@@ -17,13 +13,8 @@ export default function SearchResults() {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // Per panelin e kategorive kur nuk ka kategori te zgjedhur
   const [categoriesForFilter, setCategoriesForFilter] = useState([]);
   const [loadingCategoriesFilter, setLoadingCategoriesFilter] = useState(false);
-  
-  // Filtrat aktive dhe rezultatet e filtruara mbeten siç ishin per logjiken e frontend filtering
-  // por te dhenat fillestare vijne nga API
   const [activeFilters, setActiveFilters] = useState({});
   const [filteredResults, setFilteredResults] = useState([]);
   const [filtersActive, setFiltersActive] = useState(false);
@@ -41,12 +32,9 @@ export default function SearchResults() {
         if (queryParam) {
           params.append('query', queryParam);
         }
-        // TODO: Shtoni parametra te tjere per backend filtering nese eshte e nevojshme
-        // p.sh. params.append('page', currentPage);
-
         const response = await API.get(`${endpoint}?${params.toString()}`);
-        setResults(response.data || []); // Sigurohemi qe eshte array
-        setFilteredResults([]); // Pastrojme filtrat e meparshem te frontend
+        setResults(response.data || []);
+        setFilteredResults([]); 
         setFiltersActive(false);
       } catch (err) {
         console.error("Failed to fetch search results:", err);
@@ -58,10 +46,9 @@ export default function SearchResults() {
     };
 
     fetchResults();
-  }, [categoryParam, queryParam]); // Ri-thirr API kur ndryshojne parametrat e kerkimit
+  }, [categoryParam, queryParam]); 
 
   useEffect(() => {
-    // Marrim kategorite per sidebar vetem nese nuk eshte specifikuar nje kategori ne URL
     if (!categoryParam) {
       const fetchCategoriesForFilter = async () => {
         setLoadingCategoriesFilter(true);
@@ -70,7 +57,6 @@ export default function SearchResults() {
           setCategoriesForFilter(response.data || []);
         } catch (err) {
           console.error("Failed to fetch categories for filter panel:", err);
-          // Mund te mos shfaqim error ketu, thjesht nuk do kete kategori ne filter
         } finally {
           setLoadingCategoriesFilter(false);
         }
@@ -81,28 +67,20 @@ export default function SearchResults() {
 
 
   const applyFilters = (filters) => {
-    // Kjo logjike filtron rezultatet e marra nga API ne frontend.
-    // Idealja do ishte qe filtrat te aplikoheshin ne backend.
-    // Per momentin, po e leme siç eshte, por duke filtruar 'results' (nga API)
-    // dhe jo 'demoListings'
     console.log('Duke aplikuar filtrat (frontend):', filters);
     setActiveFilters(filters);
     
-    let newResults = [...results]; // Filtrojme nga te dhenat e marra nga API
+    let newResults = [...results];
     let filtersApplied = false;
-    
-    // TODO: Per te pershtatur filtrat me strukturën e 'item' qe vjen nga API
-    // Shembull:
     if (filters.qytetIZgjedhur) {
       newResults = newResults.filter(item => 
-        item.location === filters.qytetIZgjedhur // Sigurohuni qe 'item.location' eshte fusha e duhur
+        item.location === filters.qytetIZgjedhur
       );
       filtersApplied = true;
     }
     
     if (filters.cmimiMin) {
       newResults = newResults.filter(item => {
-        // Kjo logjike per cmimin duhet te pershtatet me formatin e cmimit nga API
         const priceString = String(item.price).replace(/[^0-9.,-]+/g, '').replace(',', '.');
         const price = parseFloat(priceString);
         return !isNaN(price) && price >= filters.cmimiMin;
@@ -119,7 +97,7 @@ export default function SearchResults() {
       filtersApplied = true;
     }
     
-    if (categoryParam === 'Pune') { // Duhet te jete categoryParam, jo category (qe ishte state i vjeter)
+    if (categoryParam === 'Pune') { 
       if (filters.pagaMin) {
          newResults = newResults.filter(item => {
             const priceString = String(item.price).replace(/[^0-9.,-]+/g, '').replace(',', '.');
@@ -143,7 +121,7 @@ export default function SearchResults() {
       setFilteredResults(newResults);
       setFiltersActive(true);
     } else {
-      setFilteredResults([]); // Nese nuk ka filtra aktiv, shfaqim te gjitha rezultatet nga API
+      setFilteredResults([]); 
       setFiltersActive(false);
     }
   };
@@ -156,20 +134,20 @@ export default function SearchResults() {
       
       <div className="flex flex-col md:flex-row flex-1 container mx-auto px-4 py-8 gap-6">
         <aside className="w-full md:w-80 lg:w-96 shrink-0">
-          {categoryParam && ( // FilterPanel shfaqet nese ka nje kategori te zgjedhur ne URL
+          {categoryParam && ( 
             <FilterPanel 
               category={categoryParam} 
               onApplyFilters={applyFilters}
             />
           )}
-          {!categoryParam && ( // Nese nuk ka kategori, shfaqim listen e kategorive
+          {!categoryParam && ( 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Kategorite</h2>
               {loadingCategoriesFilter ? (
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600 mx-auto my-4"></div>
               ) : categoriesForFilter.length > 0 ? (
                 <div className="space-y-2 mt-4">
-                  {categoriesForFilter.map(cat => ( // Supozojme qe cat ka 'name' ose 'id'
+                  {categoriesForFilter.map(cat => ( 
                     <Link 
                       key={cat.id || cat.name}
                       to={`/search?category=${encodeURIComponent(cat.name)}`}

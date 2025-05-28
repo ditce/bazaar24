@@ -24,8 +24,6 @@ export const CartProvider = ({ children }) => {
       console.error('Gabim ne ruajtjen e shportes ne localStorage:', error);
     }
   }, [cartItems]);
-  
-  // Funksione per menaxhimin e shportes
   const addToCart = (item) => {
     setCartItems(prevItems => {
       const existingItemIndex = prevItems.findIndex(i => i.id === item.id);

@@ -14,8 +14,7 @@ const ShoppingCart = () => {
   } = useCart();
   
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  
-  // Rendero artikujt e shportes
+
   const renderCartItems = () => {
     if (cartItems.length === 0) {
       return (
@@ -98,8 +97,6 @@ const ShoppingCart = () => {
       </div>
     );
   };
-  
-  // Rendero panelin e pageses
   const renderCheckout = () => {
     return (
       <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
@@ -133,12 +130,9 @@ const ShoppingCart = () => {
       </div>
     );
   };
-  
-  // Rendero formen e pageses
   const renderCheckoutForm = () => {
     const handleSubmit = (e) => {
       e.preventDefault();
-      // Simulojme perfundimin e pageses
       alert('Porosia juaj u krye me sukses!');
       clearCart();
       toggleCart();
@@ -264,8 +258,6 @@ const ShoppingCart = () => {
       </div>
     );
   };
-  
-  // Kodi kryesor i komponentit
   if (!isCartOpen) return null;
   
   return (

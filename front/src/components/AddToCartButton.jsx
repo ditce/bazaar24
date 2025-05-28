@@ -5,20 +5,17 @@ const AddToCartButton = ({ item, className = "" }) => {
   const { addToCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
   
-  // Kontrollojme nese artikulli mund te shtohet ne shporte
-  // VETEM makina, shtepi dhe qira (jo pune)
   const canAddToCart = item && (item.type === 'Makina' || item.type === 'Shtepi' || item.type === 'Qira');
   
   if (!canAddToCart) return null;
   
   const handleAddToCart = (e) => {
-    e.preventDefault(); // Ndalojme propagimin e klikimit ne parent (Link)
+    e.preventDefault();
     e.stopPropagation();
     
     addToCart(item);
     setIsAdded(true);
     
-    // Rivendosim gjendjen pas 2 sekondash
     setTimeout(() => {
       setIsAdded(false);
     }, 2000);

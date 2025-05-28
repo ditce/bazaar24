@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'; // Shtuar useEffect
+import React, { useState, useEffect } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import CartButton from './CartButton';
-import API from '../utilities/API'; // Shtuar importi
+import API from '../utilities/API';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [navCategories, setNavCategories] = useState([]); // Per kategorite dinamike
+  const [navCategories, setNavCategories] = useState([]); 
   const [loadingCategories, setLoadingCategories] = useState(true);
   const navigate = useNavigate();
 
@@ -14,13 +14,10 @@ export default function Navbar() {
       setLoadingCategories(true);
       try {
         const response = await API.get("/categories");
-        // Supozojme qe API kthen nje array me objekte qe kane 'name', p.sh. [{id:1, name:"Pune"}, ...]
-        // Limitojme ne 4 kategori per navbar ose marrim te gjitha
-        setNavCategories(response.data.slice(0, 4)); // Marrim 4 te parat per thjeshtesi
+        setNavCategories(response.data.slice(0, 4)); 
       } catch (error) {
         console.error("Failed to fetch navigation categories:", error);
-        // Nese deshton, perdorim kategorite statike si fallback ose nuk shfaqim asgje
-        setNavCategories([ // Fallback categories
+        setNavCategories([ 
           { name: 'Pune' }, { name: 'Makina' }, { name: 'Shtepi' }, { name: 'Qira' }
         ]);
       } finally {
@@ -44,7 +41,7 @@ export default function Navbar() {
       ? "block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-md"
       : "px-3 py-2 text-gray-700 hover:text-indigo-600 transition-colors";
 
-    if (loadingCategories && !isMobile) { // Shfaq loading vetem per desktop, mobile ka fallback
+    if (loadingCategories && !isMobile) { 
         return <div className="text-sm text-gray-500">Duke ngarkuar kategorite...</div>;
     }
 

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from './Navbar';
 import Footer from './Footer';
-import API from '../utilities/API'; // Shtuar importi
+import API from '../utilities/API'; 
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true); // Ndryshuar ne true
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
@@ -17,19 +17,14 @@ const UserProfile = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await API.get("/me"); // Endpoint per te dhenat e perdoruesit
+        const response = await API.get("/me"); 
         if (response.data) {
           setUserData(response.data);
-        } else {
-          // Nese API kthen pergjigje te zbrazet por pa gabim, trajtoje si error
-          setError("Nuk u gjeten te dhena per perdoruesin.");
-          // Mund te duhet ridrejtim ne login nese nuk eshte i autorizuar
-          // navigate('/login');
-        }
+        } else {setError("Nuk u gjeten te dhena per perdoruesin.");
+          }
       } catch (err) {
         console.error("Failed to fetch user data:", err);
         setError("Gabim ne ngarkimin e te dhenave te profilit. Provoni te kyçeni perseri.");
-        // Nese eshte gabim autorizimi (p.sh. 401), ridrejto tek login
         if (err.response && (err.response.status === 401 || err.response.status === 403)) {
           navigate('/login');
         }
@@ -39,66 +34,34 @@ const UserProfile = () => {
     };
     fetchUserData();
   }, [navigate]);
-
-  // Mock data per listimet e perdoruesit - KETO DUHET TE MERREN NGA API
-  // Mund te jene pjese e pergjigjes se /me, ose nje endpoint i ri si /me/listings ose /search?userId=X
-  // Per momentin, po i leme te koduara me nje koment.
   const userListings_static = [
     { id: 201, title: 'BMW 3 Series 2019', price: '€32,000', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=150&h=100&fit=crop', type: 'Makina', status: 'Aktive', views: 245, date: '2025-05-20' },
     { id: 301, title: 'Apartament 2+1 ne qender', price: '€120,000', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=150&h=100&fit=crop', type: 'Shtepi', status: 'Aktive', views: 189, date: '2025-05-18' },
-    // ...
   ];
-  const [userListings, setUserListings] = useState(userListings_static); // Mund te mbushet nga API
-
-  // Mock data per aktivitetin e fundit - KETO DUHET TE MERREN NGA API
+  const [userListings, setUserListings] = useState(userListings_static); 
   const recentActivity_static = [
     { action: 'Listim i ri publikuar', item: 'BMW 3 Series 2019', date: '2025-05-20', type: 'listing' },
     { action: 'Mesazh i ri', item: 'Per Apartament 2+1', date: '2025-05-19', type: 'message' },
-    // ...
+    
   ];
-  const [recentActivity, setRecentActivity] = useState(recentActivity_static); // Mund te mbushet nga API
-  
-  // TODO: Implement API call for userListings & recentActivity if available
-  // useEffect(() => {
-  //   const fetchUserActivityAndListings = async () => {
-  //     if (userData?.id) { // Nese userData eshte ngarkuar dhe ka ID
-  //       try {
-  //         // const listingsResponse = await API.get(`/search?userId=${userData.id}`);
-  //         // setUserListings(listingsResponse.data);
-  //         // const activityResponse = await API.get(`/me/activity`);
-  //         // setRecentActivity(activityResponse.data);
-  //       } catch (err) {
-  //         console.error("Failed to fetch user listings/activity:", err);
-  //       }
-  //     }
-  //   };
-  //   fetchUserActivityAndListings();
-  // }, [userData]);
-
-
+  const [recentActivity, setRecentActivity] = useState(recentActivity_static); 
   const handleLogout = () => {
-    // TODO: Idealish, duhet te therritet nje API endpoint per logout ne backend
-    // API.post("/logout").then(() => { ... });
-    localStorage.removeItem('userToken'); // Supozojme qe tokeni ruhet keshtu
-    setUserData(null); // Pastrojme te dhenat e userit nga state
+    localStorage.removeItem('userToken'); 
+    setUserData(null); 
     navigate('/');
   };
   
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    // TODO: Thirr API.put('/me', formData) ose API.post('/me/update', formData)
-    // Supozojme se userData ne state permban te dhenat e modifikuara
     try {
-        setLoading(true); // Mund te shtojme nje state tjeter per loading te editimit
-        // const response = await API.put("/me", userData); // ose API.post("/me/update", userData)
-        // setUserData(response.data); // Rifreskojme me te dhenat nga serveri
+        setLoading(true);
         setIsEditing(false);
-        alert("Profili u perditesua me sukses!"); // Kjo eshte placeholder
+        alert("Profili u perditesua me sukses!"); 
     } catch (err) {
         console.error("Failed to update profile:", err);
         alert("Gabim ne perditesimin e profilit.");
     } finally {
-        setLoading(false); // Ose loading-un e editimit
+        setLoading(false); 
     }
   };
 
@@ -269,8 +232,8 @@ const UserProfile = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <Link to={`/listing/${listing.id}`} className="text-indigo-600 hover:text-indigo-900 mr-3">Shiko</Link>
-                    <button onClick={() => navigate(`/edit-listing/${listing.id}`)} className="text-green-600 hover:text-green-900 mr-3">Modifiko</button> {/* TODO: Duhet rruge per editim */}
-                    <button className="text-red-600 hover:text-red-900">Fshij</button> {/* TODO: Implement fshirje me API call */}
+                    <button onClick={() => navigate(`/edit-listing/${listing.id}`)} className="text-green-600 hover:text-green-900 mr-3">Modifiko</button>
+                    <button className="text-red-600 hover:text-red-900">Fshij</button>
                   </td>
                 </tr>
               ))}
@@ -315,7 +278,7 @@ const UserProfile = () => {
                 name="email"
                 value={userData?.email || ''} 
                 onChange={handleChange}
-                disabled // Emaili zakonisht nuk modifikohet direkt, ose ka proces te veçante
+                disabled 
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-gray-100"
               />
             </div>
@@ -363,8 +326,6 @@ const UserProfile = () => {
                   type="button" 
                   onClick={() => {
                       setIsEditing(false);
-                      // Rivendos userData ne vlerat origjinale nese nuk ruhen
-                      // fetchUserData(); // Ose thjesht mbaj nje kopje te userData origjinale
                   }}
                   className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
@@ -389,7 +350,6 @@ const UserProfile = () => {
           </div>
         </form>
       </div>
-      {/* Preferencat e tjera ... */}
     </div>
   );
 

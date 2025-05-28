@@ -1,59 +1,40 @@
 import React, { useState, useEffect } from 'react';
-// Nuk ka nevoje per API ketu nese opsionet mbeten te koduara dhe vijne nga parent
 
 export default function FilterPanel({ category, onApplyFilters }) {
-  // State-t per filtrat mbeten siç jane
   const [qytetIZgjedhur, setQytetIZgjedhur] = useState('');
-  const [tipiIZgjedhur, setTipiIZgjedhur] = useState(''); // Perdorur per 'Shtepi'
-  const [llojiQira, setLlojiQira] = useState(''); // Perdorur per 'Qira'
-  
-  // State per cmimet dhe pagat
+  const [tipiIZgjedhur, setTipiIZgjedhur] = useState('');
+  const [llojiQira, setLlojiQira] = useState(''); 
   const [pagaMin, setPagaMin] = useState('');
   const [pagaMax, setPagaMax] = useState('');
   const [cmimiMin, setCmimiMin] = useState('');
   const [cmimiMax, setCmimiMax] = useState('');
-  
-  // State per siperfaqen
   const [siperFaqjaMin, setSiperFaqjaMin] = useState('');
   const [siperFaqjaMax, setSiperFaqjaMax] = useState('');
-  
-  // State per vitin e prodhimit (Makina)
   const [vitiMin, setVitiMin] = useState(1980);
-  const [vitiMax, setVitiMax] = useState(new Date().getFullYear()); // Vit maksimal eshte viti aktual
-  
-  // State per kilometrazhin (Makina)
+  const [vitiMax, setVitiMax] = useState(new Date().getFullYear()); 
   const [kmMin, setKmMin] = useState(0);
   const [kmMax, setKmMax] = useState(500000);
-
-  // Te dhena te koduara - Nese keto duhet te vijne nga API, duhet te implementohet.
-  // P.sh., API.get('/locations/cities') ose pjese e /categories endpoint-it.
   const qytetet = [
     'Tirane', 'Durres', 'Vlore', 'Shkoder', 'Elbasan', 'Fier', 'Korce', 'Berat', 
     'Lushnje', 'Pogradec', 'Kavaje', 'Lezhe', 'Gjirokaster', 'Sarande', 'Kukes', 
     'Peshkopi', 'Kruje', 'Kucove', 'Permet', 'Ballsh', 'Patos', 'Librazhd', 
     'Tepelene', 'Gramsh', 'Burrel', 'Himare', 'Delvine', 'Lac', 'Koplik', 'Fushe-Kruje'
-    // ... shto me shume sipas nevojes
   ];
 
-  // Lagjet jane te koduara dhe te varura nga qyteti.
-  // Nese ka API per lagjet, p.sh., API.get(`/locations/neighborhoods?city=${qytetIZgjedhur}`)
   const lagjet = {
     'Tirane': ['Bllok', 'Qender', 'Yzberisht', 'Kombinat', 'Laprake', 'Don Bosko', 'Myslym Shyri', 'Ali Demi', 'Kinostudio', 'Kodra e Diellit', 'Selite', 'Xhamllik', 'Tirana e Re', 'Fresku', '21 Dhjetori', 'Komuna e Parisit', 'Medrese', 'Allias', 'Bregu i Lumit', 'Babrru', 'Porcelan', 'Shkoze', 'Sauk', 'Astir'],
     'Durres': ['Plazh', 'Qender', 'Shkozet', 'Currila', 'Spitalle', 'Porto Romano', 'Arapaj', 'Keneta', 'Rrashbull'],
-    'Vlore': ['Plazh', 'Qender', 'Skele', 'Uji i Ftohte', 'Radhime', 'Orikum', 'Narte', 'Zvernec', 'Shushice'],
-    // ... lagjet per qytetet e tjera
+    'Vlore': ['Plazh', 'Qender', 'Skele', 'Uji i Ftohte', 'Radhime', 'Orikum', 'Narte', 'Zvernec', 'Shushice', 'Tragjas'],
+    'Berat': ['22 Tetori', '28 Nentori', '30 Vjetori', '1 Korriku', 'Mangalem', 'NSHG', 'Celepias', 'Ish Pjeshkorja', 'Uznove'],
+    'Sarande': ['Delvine', 'Konispol', 'Ksamil', 'Xarre', 'Livadhja', 'Markat', 'Shales', 'Gjashte', 'Aliko', 'Memoraq', 'Cerkovice', 'Borsh', 'Piqeras', 'Lukove', 'Finiq', 'Vergo', 'Stjar', 'Qender Sarande'],
   };
-  
-  // Gjenerim i funksioneve default per qytetet e tjera
+  a
   qytetet.forEach(qytet => {
     if (!lagjet[qytet]) {
       lagjet[qytet] = ['Qender', 'Lagje 1', 'Lagje 2', 'Periferi'];
     }
   });
 
-  // Filtrat bazuar ne kategori. Opsionet per select mbeten te koduara.
-  // Nese keto opsione duhet te vijne nga API (p.sh. /subcategories?category=Makina&field=brand),
-  // atehere duhet te modifikohet per t'i marre ato.
   const filtersConfig = {
     'Pune': [
       { label: 'Vendndodhja', name: 'qytetIZgjedhur', type: 'select', options: qytetet, value: qytetIZgjedhur, onChange: (e) => setQytetIZgjedhur(e.target.value) },
@@ -90,14 +71,8 @@ export default function FilterPanel({ category, onApplyFilters }) {
       { label: 'Vendndodhja', name: 'qytetIZgjedhur', type: 'select', options: qytetet, value: qytetIZgjedhur, onChange: (e) => setQytetIZgjedhur(e.target.value) },
       { label: 'Cmimi minimal (€)', name: 'cmimiMin', type: 'number', placeholder: 'Min', value: cmimiMin, onChange: (e) => setCmimiMin(e.target.value) },
       { label: 'Cmimi maksimal (€)', name: 'cmimiMax', type: 'number', placeholder: 'Max', value: cmimiMax, onChange: (e) => setCmimiMax(e.target.value) },
-      // Filtrat shtese per Qira mund te shtohen ketu bazuar ne 'llojiQira'
-      // Per thjeshtesi, keto nuk jane shtuar ende.
-      // Nese llojiQira === 'Shtepi/Apartament', shfaq filtrat e Shtepise
-      // Nese llojiQira === 'Makine', shfaq filtrat e Makines
     ]
   };
-
-  // Cdo here qe ndryshon kategoria, pastrojme filtrat specifik per kategorine e vjeter
   useEffect(() => {
     setQytetIZgjedhur('');
     setTipiIZgjedhur('');
@@ -111,18 +86,11 @@ export default function FilterPanel({ category, onApplyFilters }) {
 
 
   const activeFilterFields = filtersConfig[category] || [];
-
-  // Funksion per te marre vleren e nje filtri nga state
-  // Kjo eshte e nevojshme pasi disa fusha ne config nuk kane 'value' dhe 'onChange' te definuar direkt
-  // sepse menaxhohen nga state te ndryshem (p.sh. pagaMin, cmimiMin)
   const getFieldValue = (filterName) => {
     const stateMap = {
         qytetIZgjedhur, tipiIZgjedhur, llojiQira, pagaMin, pagaMax, cmimiMin, cmimiMax,
         siperFaqjaMin, siperFaqjaMax, vitiMin, vitiMax, kmMin, kmMax
     };
-    // Disa fusha ne config mund te mos kene 'name' qe perputhet me state direkt (p.sh. pozicioniPune)
-    // Keto duhet te menaxhohen me state te vecante nese duam te mbajme vleren e tyre.
-    // Per momentin, fushat pa 'value' dhe 'onChange' te definuar ne config do jene te pakontrolluara.
     return stateMap[filterName]; 
   }
 
@@ -133,7 +101,6 @@ export default function FilterPanel({ category, onApplyFilters }) {
     const formData = new FormData(e.target);
     const appliedFilters = {};
     
-    // Marrim vlerat nga state per fushat e kontrolluara
     if (qytetIZgjedhur) appliedFilters.qytetIZgjedhur = qytetIZgjedhur;
     if (pagaMin) appliedFilters.pagaMin = parseInt(pagaMin, 10);
     if (pagaMax) appliedFilters.pagaMax = parseInt(pagaMax, 10);
@@ -142,7 +109,6 @@ export default function FilterPanel({ category, onApplyFilters }) {
     if (siperFaqjaMin) appliedFilters.siperFaqjaMin = parseInt(siperFaqjaMin, 10);
     if (siperFaqjaMax) appliedFilters.siperFaqjaMax = parseInt(siperFaqjaMax, 10);
     
-    // Per fushat e makines
     if (category === 'Makina') {
         appliedFilters.vitiMin = parseInt(vitiMin, 10);
         appliedFilters.vitiMax = parseInt(vitiMax, 10);
@@ -150,21 +116,17 @@ export default function FilterPanel({ category, onApplyFilters }) {
         appliedFilters.kmMax = parseInt(kmMax, 10);
     }
 
-    // Marrim vlerat nga fushat e tjera te formularit qe mund te jene te pakontrolluara
     activeFilterFields.forEach(filter => {
-        if (filter.type === 'select' && !filter.onChange) { // Fushat select te pakontrolluara direkt nga state i dedikuar
+        if (filter.type === 'select' && !filter.onChange) { 
             const value = formData.get(filter.name);
             if (value) {
                 appliedFilters[filter.name] = value;
             }
         }
     });
-    
-    // Per Qira, shtojme llojin e qirase nese eshte zgjedhur
     if (category === 'Qira' && llojiQira) {
         appliedFilters.llojiQira = llojiQira;
     }
-     // Per Shtepi, shtojme tipin e shtepise nese eshte zgjedhur
     if (category === 'Shtepi' && tipiIZgjedhur) {
         appliedFilters.tipiShtepi = tipiIZgjedhur;
     }
@@ -189,12 +151,12 @@ export default function FilterPanel({ category, onApplyFilters }) {
             {filter.type === 'select' ? (
               <select 
                 id={filter.name}
-                name={filter.name} // Name eshte i nevojshem per FormData nese nuk eshte controlled
+                name={filter.name} 
                 className="w-full border border-gray-300 rounded-md p-2 bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                onChange={filter.onChange} // Nese eshte controlled
-                value={filter.value}       // Nese eshte controlled
+                onChange={filter.onChange} 
+                value={filter.value}       
                 disabled={filter.disabled}
-                defaultValue={!filter.onChange ? '' : undefined} // Per uncontrolled selects
+                defaultValue={!filter.onChange ? '' : undefined} 
               >
                 <option value="">Zgjidh</option>
                 {filter.options.map((opt, i) => (
@@ -212,8 +174,8 @@ export default function FilterPanel({ category, onApplyFilters }) {
                   min={filter.min} 
                   max={filter.max} 
                   step={filter.step || 1}
-                  value={filter.value} // Duhet te jete i kontrolluar
-                  onChange={filter.onChange} // Duhet te jete i kontrolluar
+                  value={filter.value} 
+                  onChange={filter.onChange} 
                   className="w-full accent-indigo-600"
                 />
                 <div className="text-right text-sm text-gray-600 mt-1">{filter.display}</div>
@@ -222,14 +184,14 @@ export default function FilterPanel({ category, onApplyFilters }) {
               <input 
                 type={filter.type || 'text'} 
                 id={filter.name}
-                name={filter.name} // Name eshte i nevojshem per FormData nese nuk eshte controlled
+                name={filter.name} 
                 className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
                 placeholder={filter.placeholder || ''}
-                onChange={filter.onChange} // Nese eshte controlled
-                value={filter.value}       // Nese eshte controlled
+                onChange={filter.onChange} 
+                value={filter.value}       
                 min={filter.min}
                 max={filter.max}
-                defaultValue={!filter.onChange ? '' : undefined} // Per uncontrolled inputs
+                defaultValue={!filter.onChange ? '' : undefined} 
               />
             )}
           </div>
