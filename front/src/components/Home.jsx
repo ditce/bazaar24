@@ -5,44 +5,69 @@ import Footer from './Footer';
 import ListingCard from './ListingCard';
 import API from "../utilities/API";
 
-const categories = [
-  { name: 'Pune', color: 'from-pink-200 to-pink-400' },
-  { name: 'Makina', color: 'from-blue-200 to-blue-400' },
-  { name: 'Shtepi', color: 'from-green-200 to-green-400' },
-  { name: 'Qira', color: 'from-purple-200 to-purple-400' },
-];
+// Kategorite dhe listimet kryesore do te merren nga API
+// const categories_static = [
+//   { name: 'Pune', color: 'from-pink-200 to-pink-400' },
+//   { name: 'Makina', color: 'from-blue-200 to-blue-400' },
+//   { name: 'Shtepi', color: 'from-green-200 to-green-400' },
+//   { name: 'Qira', color: 'from-purple-200 to-purple-400' },
+// ];
 
-const featured = [
-  { id: 201, title: 'BMW 3 Series 2019', price: '€32,000', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop', type: 'Makina', location: 'Tirane' },
-  { id: 301, title: 'Apartament 2+1 qendra', price: '€120,000', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop', type: 'Shtepi', location: 'Tirane' },
-  { id: 110, title: 'Software Engineer', price: '€95,000/vit', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop', type: 'Pune', location: 'Tirane' },
-  { id: 203, title: 'Audi A4 2021', price: '€38,000', image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop', type: 'Makina', location: 'Durres' },
-  { id: 401, title: 'Apartament 1+1 me qira', price: '€350/muaj', image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop', type: 'Qira', location: 'Tirane' },
-  { id: 109, title: 'Project Manager', price: '€85,000/vit', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop', type: 'Pune', location: 'Korce' },
-  { id: 308, title: 'Ville me oborr te madh', price: '€380,000', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop', type: 'Shtepi', location: 'Fier' },
-  { id: 206, title: 'Tesla Model 3 2023', price: '€42,000', image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop', type: 'Makina', location: 'Shkoder' }
-];
+// const featured_static = [
+//   { id: 201, title: 'BMW 3 Series 2019', price: '€32,000', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop', type: 'Makina', location: 'Tirane' },
+//   { id: 301, title: 'Apartament 2+1 qendra', price: '€120,000', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop', type: 'Shtepi', location: 'Tirane' },
+//   { id: 110, title: 'Software Engineer', price: '€95,000/vit', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop', type: 'Pune', location: 'Tirane' },
+//   // ... te tjerat
+// ];
 
 export default function Home() {
   const [search, setSearch] = useState('');
-  // const [featured, setFeatured] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [featured, setFeatured] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [loadingFeatured, setLoadingFeatured] = useState(true);
+  const [errorCategories, setErrorCategories] = useState(null);
+  const [errorFeatured, setErrorFeatured] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // !TODO: Uncomment and implement the API call to fetch featured listings
-    // const fetchFeaturedListings = async () => {
-    //   try {
-    //     const response = await API.get("featured-listings");
-    //     setFeatured(response.data);
-    //   } catch (error) {
-    //     console.error("Failed to fetch featured listings:", error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
+    const fetchCategories = async () => {
+      try {
+        setLoadingCategories(true);
+        const response = await API.get("/categories"); // Endpoint nga lista
+        // Supozojme qe API kthen nje array te objekteve te kategorive
+        // p.sh. [{ id: 1, name: 'Pune', color_from: 'pink-200', color_to: 'pink-400'}, ...]
+        // Nese API kthen vetem emra, duhet te pershtasim ngjyrat ose t'i heqim.
+        // Per thjeshtesi, po supozoj qe kthen edhe ngjyrat ose nje identifikues per to.
+        // Nese API kthen vetem [{name: 'Pune'}, {name: 'Makina'}], duhet nje mapim per ngjyrat ketu.
+        const defaultColors = ['from-pink-200 to-pink-400', 'from-blue-200 to-blue-400', 'from-green-200 to-green-400', 'from-purple-200 to-purple-400'];
+        setCategories(response.data.map((cat, index) => ({
+            ...cat, // supozojme cat permban {name: 'Pune'}
+            color: cat.color || defaultColors[index % defaultColors.length] // Nese API nuk kthen ngjyre, perdorim nje default
+        })));
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+        setErrorCategories("Gabim ne ngarkimin e kategorive.");
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
     
-    // fetchFeaturedListings();
+    const fetchFeaturedListings = async () => {
+      try {
+        setLoadingFeatured(true);
+        const response = await API.get("/featured-listings"); // Endpoint nga lista
+        setFeatured(response.data);
+      } catch (error) {
+        console.error("Failed to fetch featured listings:", error);
+        setErrorFeatured("Gabim ne ngarkimin e listimeve kryesore.");
+      } finally {
+        setLoadingFeatured(false);
+      }
+    };
+    
+    fetchCategories();
+    fetchFeaturedListings();
   }, []);
 
   const handleSearchSubmit = e => {
@@ -75,25 +100,35 @@ export default function Home() {
       </div>
       <section className="py-12 px-6 bg-white">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Kategoria</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-          {categories.map(cat => (
-            <div
-              key={cat.name}
-              onClick={() => navigate(`/search?category=${encodeURIComponent(cat.name)}`)}
-              className="cursor-pointer p-6 rounded-2xl text-center bg-white shadow-md hover:shadow-xl transition relative overflow-hidden"
-            >
-              <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-20`} />
-              <span className="relative block text-xl font-semibold text-gray-800">{cat.name}</span>
-            </div>
-          ))}
-        </div>
+        {loadingCategories ? (
+          <div className="flex justify-center items-center h-20">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          </div>
+        ) : errorCategories ? (
+          <p className="text-red-500 text-center">{errorCategories}</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            {categories.map(cat => (
+              <div
+                key={cat.name} // Supozojme qe 'name' eshte unik, ose 'id' nese API kthen ID
+                onClick={() => navigate(`/search?category=${encodeURIComponent(cat.name)}`)}
+                className="cursor-pointer p-6 rounded-2xl text-center bg-white shadow-md hover:shadow-xl transition relative overflow-hidden"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-20`} />
+                <span className="relative block text-xl font-semibold text-gray-800">{cat.name}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
       <section className="py-12 px-6 flex-1 bg-gray-100">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Listimet Kryesore</h2>
-        {loading ? (
+        {loadingFeatured ? (
           <div className="flex justify-center items-center h-40">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
           </div>
+        ) : errorFeatured ? (
+           <p className="text-red-500 text-center">{errorFeatured}</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featured.map(item => <ListingCard key={item.id} listing={item} />)}

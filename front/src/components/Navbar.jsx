@@ -1,10 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Shtuar useEffect
 import { Link, useNavigate } from 'react-router-dom';
 import CartButton from './CartButton';
+import API from '../utilities/API'; // Shtuar importi
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [navCategories, setNavCategories] = useState([]); // Per kategorite dinamike
+  const [loadingCategories, setLoadingCategories] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchNavCategories = async () => {
+      setLoadingCategories(true);
+      try {
+        const response = await API.get("/categories");
+        // Supozojme qe API kthen nje array me objekte qe kane 'name', p.sh. [{id:1, name:"Pune"}, ...]
+        // Limitojme ne 4 kategori per navbar ose marrim te gjitha
+        setNavCategories(response.data.slice(0, 4)); // Marrim 4 te parat per thjeshtesi
+      } catch (error) {
+        console.error("Failed to fetch navigation categories:", error);
+        // Nese deshton, perdorim kategorite statike si fallback ose nuk shfaqim asgje
+        setNavCategories([ // Fallback categories
+          { name: 'Pune' }, { name: 'Makina' }, { name: 'Shtepi' }, { name: 'Qira' }
+        ]);
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+    fetchNavCategories();
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -15,64 +39,69 @@ export default function Navbar() {
     if (isMenuOpen) setIsMenuOpen(false);
   };
 
+  const renderNavLinks = (isMobile = false) => {
+    const linkClass = isMobile 
+      ? "block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-md"
+      : "px-3 py-2 text-gray-700 hover:text-indigo-600 transition-colors";
+
+    if (loadingCategories && !isMobile) { // Shfaq loading vetem per desktop, mobile ka fallback
+        return <div className="text-sm text-gray-500">Duke ngarkuar kategorite...</div>;
+    }
+
+    return navCategories.map(cat => (
+      <Link 
+        key={cat.name} 
+        to={`/search?category=${encodeURIComponent(cat.name)}`} 
+        className={linkClass}
+        onClick={() => isMobile && setIsMenuOpen(false)}
+      >
+        {cat.name}
+      </Link>
+    ));
+  };
+
   return (
     <nav className="bg-white/70 backdrop-blur-md sticky top-0 z-20 shadow-md">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <div className="flex-shrink-0">
             <Link to="/" className="text-2xl font-bold text-indigo-600">Bazaar24</Link>
           </div>
 
-          {/* Menuja e mesit (e padukshme në celular) */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-4">
-              <Link to="/search?category=Pune" className="px-3 py-2 text-gray-700 hover:text-indigo-600 transition-colors">
-                Pune
-              </Link>
-              <Link to="/search?category=Makina" className="px-3 py-2 text-gray-700 hover:text-indigo-600 transition-colors">
-                Makina
-              </Link>
-              <Link to="/search?category=Shtepi" className="px-3 py-2 text-gray-700 hover:text-indigo-600 transition-colors">
-                Shtepi
-              </Link>
-              <Link to="/search?category=Qira" className="px-3 py-2 text-gray-700 hover:text-indigo-600 transition-colors">
-                Qira
-              </Link>
+              {renderNavLinks()}
             </div>
           </div>
 
-          {/* Pjesa e djathtë */}
-          <div className="flex items-center space-x-4">
-            {/* Butoni Shto Listim */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <button
               onClick={handleCreateListing}
-              className="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
+              className="hidden md:inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1 hidden sm:inline" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
               </svg>
-              Shto Listim
+              Shto
+              <span className="hidden lg:inline ml-1">Listim</span>
             </button>
 
-            {/* Butoni i shportës */}
             <CartButton />
             
-            {/* Lidhjet për login/regjistrim */}
-            <div className="hidden md:flex items-center space-x-4">
-              <Link to="/login" className="font-medium text-gray-700 hover:text-indigo-600 transition-colors">
+            <div className="hidden md:flex items-center space-x-2 sm:space-x-4">
+              <Link to="/login" className="font-medium text-gray-700 hover:text-indigo-600 transition-colors text-sm sm:text-base">
                 Login
               </Link>
-              <Link to="/register" className="font-medium text-gray-700 hover:text-indigo-600 transition-colors">
+              <Link to="/register" className="font-medium text-gray-700 hover:text-indigo-600 transition-colors text-sm sm:text-base">
                 Register
               </Link>
             </div>
 
-            {/* Butoni i menues mobile */}
             <div className="md:hidden">
               <button
                 onClick={toggleMenu}
-                className="text-gray-700 hover:text-indigo-600 focus:outline-none"
+                className="text-gray-700 hover:text-indigo-600 focus:outline-none p-1"
+                aria-label="Toggle menu"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   {isMenuOpen ? (
@@ -87,41 +116,13 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Menuja mobile */}
       {isMenuOpen && (
         <div className="md:hidden border-t">
           <div className="container mx-auto px-4 py-3 space-y-1">
-            <Link 
-              to="/search?category=Pune" 
-              className="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Pune
-            </Link>
-            <Link 
-              to="/search?category=Makina" 
-              className="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Makina
-            </Link>
-            <Link 
-              to="/search?category=Shtepi" 
-              className="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Shtepi
-            </Link>
-            <Link 
-              to="/search?category=Qira" 
-              className="block px-3 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Qira
-            </Link>
+            {renderNavLinks(true)}
             <button
               onClick={handleCreateListing}
-              className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
+              className="w-full flex items-center justify-center px-4 py-2 mt-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
