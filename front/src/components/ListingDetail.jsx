@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import AddToCartButton from './AddToCartButton';
-import API from '../utilities/API'; 
+import API from '../utilities/API';
 
 const ListingDetails = () => {
   const { id } = useParams();
@@ -58,8 +58,8 @@ const ListingDetails = () => {
           <div className="text-center bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold text-red-600 mb-4">Gabim!</h2>
             <p className="text-gray-600 mb-8">{error}</p>
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300"
             >
               Kthehu në faqen kryesore
@@ -79,8 +79,8 @@ const ListingDetails = () => {
           <div className="text-center bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Shpallja nuk u gjet</h2>
             <p className="text-gray-600 mb-8">Shpallja që kërkoni nuk ekziston ose është hequr.</p>
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300"
             >
               Kthehu në faqen kryesore
@@ -152,7 +152,7 @@ const ListingDetails = () => {
   );
 
   const renderRentalDetails = () => {
-    if (listing.details?.brand) { 
+    if (listing.details?.brand) {
       return (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Detaje te qirase (Makine)</h3>
@@ -172,7 +172,7 @@ const ListingDetails = () => {
           </div>
         </div>
       );
-    } else { 
+    } else {
       return (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Detaje te qirase (Prona)</h3>
@@ -198,7 +198,7 @@ const ListingDetails = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      
+
       <div className="bg-white border-b">
         <div className="container mx-auto px-4 py-3">
           <nav className="flex text-sm">
@@ -215,8 +215,8 @@ const ListingDetails = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-              <img 
-                src={listing.image || '/images/placeholder.jpg'} 
+              <img
+                src={listing.image || '/images/placeholder.jpg'}
                 alt={listing.title}
                 className="w-full h-64 md:h-96 object-cover"
                 onError={(e) => { e.target.onerror = null; e.target.src = '/images/placeholder.jpg'; }}
@@ -235,15 +235,15 @@ const ListingDetails = () => {
                   <p className="text-gray-600">{listing.location}</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center mb-4">
                 <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
                   {listing.type}
                 </span>
                 {listing.details?.publishedDate && (
-                    <span className="text-gray-500 text-sm ml-4">
+                  <span className="text-gray-500 text-sm ml-4">
                     Publikuar: {new Date(listing.details.publishedDate).toLocaleDateString('sq-AL')}
-                    </span>
+                  </span>
                 )}
               </div>
             </div>
@@ -268,42 +268,44 @@ const ListingDetails = () => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-md p-6 mb-6 sticky top-4">
               <h3 className="text-xl font-semibold mb-4 text-gray-800">Kontakt</h3>
-              
+
               {listing.type === 'Pune' && listing.details?.contactEmail && (
                 <div>
-                  <p className="text-gray-600 mb-4">Apliko per kete pozicion:</p>
-                  <a 
-                    href={`mailto:${listing.details.contactEmail}`}
+                  <p className="text-gray-600 mb-4">Kontaktoni pronarin:</p>
+                  <a
+                    href={`mailto:${listing.seller.email}`}
                     className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 block text-center mb-3"
                   >
-                    Dergo CV
+                    Dergo mesazh
                   </a>
-                  <p className="text-sm text-gray-500 text-center">
-                    Email: {listing.details.contactEmail}
-                  </p>
+                  <div className="text-sm text-gray-500 text-center space-y-1">
+                    <p>{listing.seller.name}</p>
+                    <p>Email: {listing.seller.email}</p>
+                    <p>Tel: {listing.seller.phone}</p>
+                  </div>
                 </div>
               )}
 
               {(listing.type === 'Makina' || listing.type === 'Shtepi' || listing.type === 'Qira') && listing.details?.contactPhone && (
                 <div>
                   <p className="text-gray-600 mb-4">Kontakto shitesin:</p>
-                  
+
                   <div className="mb-4">
-                    <AddToCartButton 
-                      item={listing} 
+                    <AddToCartButton
+                      item={listing}
                       className="w-full h-12 rounded-lg text-base font-medium"
                     />
                   </div>
-                  
-                  <a 
+
+                  <a
                     href={`tel:${listing.details.contactPhone}`}
                     className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition duration-300 block text-center mb-3"
                   >
                     Telefono
                   </a>
-                  <button 
+                  <button
                     className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 mb-3"
-                    onClick={() => alert('Funksionaliteti i dergimit te mesazhit do te implementohet se shpejti.')} 
+                    onClick={() => alert('Funksionaliteti i dergimit te mesazhit do te implementohet se shpejti.')}
                   >
                     Dergo mesazh
                   </button>
@@ -312,19 +314,6 @@ const ListingDetails = () => {
                   </p>
                 </div>
               )}
-
-              <div className="pt-4 border-t mt-4">
-                <p className="text-sm text-gray-600 mb-2">Shperndaje:</p>
-                <div className="flex space-x-2">
-                  {/* TODO: Implement share functionality */}
-                  <button className="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm hover:bg-blue-700 transition duration-300">
-                    Facebook
-                  </button>
-                  <button className="flex-1 bg-green-500 text-white py-2 px-3 rounded text-sm hover:bg-green-600 transition duration-300">
-                    WhatsApp
-                  </button>
-                </div>
-              </div>
             </div>
 
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
